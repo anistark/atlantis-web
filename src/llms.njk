@@ -1,0 +1,43 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.title }}
+
+> {{ site.description }}
+
+Atlantis is a macOS desktop app, built with Tauri, Rust and React, for keeping a roster of AI agents that run on hosted models.
+
+## Key facts
+
+- Website: {{ site.url }}
+- Platform: macOS, Apple Silicon and Intel in one universal build
+{%- if latest %}
+- Latest version: {{ latest.version }}{% if latest.codename %} ({{ latest.codename }}){% endif %}, released {{ latest.date }}
+- Download: {{ latest.assets[0].url }}
+{%- endif %}
+- Models: hosted, through an Ollama Cloud key or an endpoint added by hand
+- Price: free
+- Author: {{ site.author }}
+
+## What it does
+
+- Agents: each agent is a folder with a SOUL.md at its root, made in the app or imported. The file is sent on every turn and can keep tools back from the agent.
+- Oracle: a 3D house where the agents live. They sit at a desk while working, eat after spending many tokens and play when bored. You walk through it as a figure of your own.
+- Garage: a group chat with the whole roster. Agents are addressed with @handle, and several agents taking one message debate in rounds until most agree.
+- Armory: the tools an agent can use. read_file, write_file, edit_file, list_dir, search, download_file, fetch_page, web_search, now and notify. Every path is confined to the agent's home, and no tool runs a command.
+- Skills: written in the app or installed from AgentHub, offered to an agent on every turn.
+- Akashic Records: the logbook of turns, tool calls and notifications.
+- Tron: settings, providers, storage and Dr. House, a diagnostics page for the app itself.
+
+## Privacy
+
+The app has no analytics or telemetry. Keys are kept in the macOS keychain. Data stays in the app's data folder on the Mac, apart from what is sent to the chosen model provider and the web requests agents' tools make.
+
+## Links
+
+- Home: {{ site.url }}/
+- Download and changelogs: {{ site.url }}/download/
+- Latest release as JSON: {{ site.url }}/api/latest.json
+- Privacy: {{ site.url }}/privacy/
+- Terms: {{ site.url }}/terms/

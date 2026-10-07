@@ -1,0 +1,28 @@
+---
+layout: base.njk
+title: Download Atlantis
+description: Download Atlantis for macOS, Apple Silicon and Intel in one build, with the changelog for every release.
+ground: download
+---
+
+<section class="page section" aria-labelledby="download-title" style="padding-top: var(--act)">
+  <header class="section-head reveal">
+    <p class="eyebrow">Download</p>
+    <h1 class="title" id="download-title">Atlantis for macOS</h1>
+    <p class="lead">One build for Apple Silicon and Intel. The newest few releases stay hosted, and the changelog of every release stays on this page.</p>
+  </header>
+
+  {%- if releases.length %}
+    {%- for release in releases %}
+      {%- set full = true %}
+      {% include "release.njk" %}
+    {%- endfor %}
+  {%- else %}
+    <div class="glass empty reveal">
+      <p class="eyebrow">Not yet</p>
+      <p class="lead">The first build is on its way. It will be here the moment it ships.</p>
+    </div>
+  {%- endif %}
+
+  {% include "requirements.njk" %}
+</section>

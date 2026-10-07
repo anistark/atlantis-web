@@ -1,0 +1,149 @@
+---
+layout: base.njk
+---
+{%- from "icons.njk" import icon -%}
+
+<section class="hero page" aria-labelledby="hero-title">
+  <div class="hero-core">
+    <div class="hero-mark" aria-hidden="true">
+      <span class="logo hero-glyph"></span>
+      <span class="hero-scan"></span>
+    </div>
+    <h1 class="hero-word" id="hero-title">{{ site.title }}</h1>
+    <p class="lead">A house for your AI agents. Each one lives in a folder of its own, works with tools that stay inside it, and joins the others when you ask the room.</p>
+    <div class="hero-actions">
+      {%- if latest %}
+      <a class="button" href="{{ latest.assets[0].url }}" data-download="{{ latest.version }}">
+        {{ icon("download") }}
+        <span>Download for macOS</span>
+      </a>
+      {%- else %}
+      <a class="button" href="/download/" aria-disabled="true">
+        {{ icon("download") }}
+        <span>Coming soon</span>
+      </a>
+      {%- endif %}
+      <a class="button button-quiet" href="#features">See what it does</a>
+    </div>
+    <p class="caption">
+      {%- if latest -%}
+      v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} · Apple Silicon and Intel · <a class="link" href="/download/">All releases</a>
+      {%- else -%}
+      macOS · Apple Silicon and Intel
+      {%- endif -%}
+    </p>
+  </div>
+</section>
+
+<section class="section page" id="features" aria-labelledby="features-title">
+  <header class="section-head reveal">
+    <p class="eyebrow">What it does</p>
+    <h2 class="title" id="features-title">A roster, a house and a workshop</h2>
+    <p class="lead">Atlantis keeps a roster of agents on your Mac. You talk to one at a time or to all of them at once, and you can watch them go about their day.</p>
+  </header>
+
+  <div class="grid">
+    <article class="tile glass span-9 reveal">
+      <span class="tile-mark">{{ icon("people") }}</span>
+      <div class="tile-head">{{ icon("people") }}<p class="eyebrow">Agents</p></div>
+      <h3>Every agent has a home</h3>
+      <p>An agent is a folder with a <code>SOUL.md</code> at its root. Make one in the app or import a folder you already have. Edit the file and the agent changes with it, down to which tools it is allowed.</p>
+    </article>
+
+    <article class="tile glass span-6 reveal">
+      <span class="tile-mark">{{ icon("oracle") }}</span>
+      <div class="tile-head">{{ icon("oracle") }}<p class="eyebrow">Oracle</p></div>
+      <h3>A house you walk through</h3>
+      <p>Agents sit at a desk while they work, head to the kitchen after a lot of tokens and to the game room when they are bored. You walk among them in 3D.</p>
+    </article>
+
+    <article class="tile glass span-5 reveal">
+      <span class="tile-mark">{{ icon("garage") }}</span>
+      <div class="tile-head">{{ icon("garage") }}<p class="eyebrow">Garage</p></div>
+      <h3>Ask the whole room</h3>
+      <p>A group chat with the roster. Name an agent with <code>@</code> or ask everyone. When several take it, they debate in rounds until most of them agree.</p>
+    </article>
+
+    <article class="tile glass span-5 reveal">
+      <span class="tile-mark">{{ icon("armory") }}</span>
+      <div class="tile-head">{{ icon("armory") }}<p class="eyebrow">Armory</p></div>
+      <h3>Tools that stay inside</h3>
+      <p>Read, write and edit files, search them, fetch a page, download a file and search the web. Every path is checked against the agent's home first.</p>
+    </article>
+
+    <article class="tile glass span-5 reveal">
+      <span class="tile-mark">{{ icon("skill") }}</span>
+      <div class="tile-head">{{ icon("skill") }}<p class="eyebrow">Skills</p></div>
+      <h3>Skills, written or installed</h3>
+      <p>Write a skill in the app or install one from <a class="link" href="https://agenthub.nullorder.org" rel="noopener" target="_blank">AgentHub</a>. An agent is told its skills on every turn and reads the one a task needs.</p>
+    </article>
+
+    <article class="tile glass span-8 reveal">
+      <span class="tile-mark">{{ icon("records") }}</span>
+      <div class="tile-head">{{ icon("records") }}<p class="eyebrow">Akashic Records</p></div>
+      <h3>A logbook that keeps everything</h3>
+      <p>Every turn, tool call and notification, filtered by level and kind, kept until you clear it. Agents can send you a notification when a long task finishes or a decision is waiting on you.</p>
+    </article>
+
+    <article class="tile glass span-7 reveal">
+      <span class="tile-mark">{{ icon("tron") }}</span>
+      <div class="tile-head">{{ icon("tron") }}<p class="eyebrow">Tron</p></div>
+      <h3>Settings that explain themselves</h3>
+      <p>Providers and models, a Storage tab that says what is using the disk, and Dr. House, which checks the app itself and says what is wrong.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section page" aria-labelledby="principles-title">
+  <header class="section-head reveal">
+    <p class="eyebrow">How it behaves</p>
+    <h2 class="title" id="principles-title">Your Mac, your keys, your folders</h2>
+  </header>
+  <ul class="principles reveal">
+    <li>
+      <h3>Keys in the keychain</h3>
+      <p>A provider key is kept in the macOS keychain and read only when it is about to be sent. It is never written to a file.</p>
+    </li>
+    <li>
+      <h3>Agents stay home</h3>
+      <p>A tool call that would leave the agent's folder, through <code>..</code>, an absolute path or a symlink, is refused before anything is touched.</p>
+    </li>
+    <li>
+      <h3>Nothing runs a command</h3>
+      <p>Agents read and change the files they were given, fetch from the web and tell you things. None of them can run a program on your machine.</p>
+    </li>
+  </ul>
+</section>
+
+<section class="section page" id="download" aria-labelledby="download-title">
+  <header class="section-head reveal">
+    <p class="eyebrow">Download</p>
+    <h2 class="title" id="download-title">The latest build</h2>
+  </header>
+  {%- if latest %}
+    {%- set release = latest %}
+    {%- set full = false %}
+    {% include "release.njk" %}
+    <p class="caption reveal" style="margin-top: var(--gate-sp)">Older builds and every changelog are on the <a class="link" href="/download/">download page</a>.</p>
+  {%- else %}
+    <div class="glass empty reveal">
+      <p class="eyebrow">Not yet</p>
+      <p class="lead">The first build is on its way. It will be here the moment it ships.</p>
+    </div>
+  {%- endif %}
+</section>
+
+<section class="section page" id="faq" aria-labelledby="faq-title">
+  <header class="section-head reveal">
+    <p class="eyebrow">Questions</p>
+    <h2 class="title" id="faq-title">Before you ask</h2>
+  </header>
+  <div class="faq">
+    {%- for item in faq %}
+    <details class="glass reveal">
+      <summary>{{ item.question }}</summary>
+      <p>{{ item.answer | inline | safe }}</p>
+    </details>
+    {%- endfor %}
+  </div>
+</section>

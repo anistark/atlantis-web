@@ -1,0 +1,44 @@
+---
+layout: base.njk
+title: Privacy. Atlantis
+description: What the Atlantis app and this website collect, and what they do not.
+ground: text
+---
+
+<article class="page doc">
+  <p class="eyebrow">Privacy</p>
+  <h1 class="title">Privacy policy</h1>
+  <p class="caption" style="margin-top: var(--frame)">Last updated October 2026</p>
+
+  <div class="glass summary">
+    <p><strong>The app</strong> has no analytics and no telemetry. What you and your agents write stays on your Mac, apart from what is sent to the model provider you set up so it can answer.</p>
+    <p style="margin-top: var(--frame)"><strong>This website</strong> {% if site.analytics %}uses Google Analytics to count visits and downloads. It has no connection to the app.{% else %}collects nothing beyond the server logs its host keeps.{% endif %}</p>
+  </div>
+
+  <h2>What the app keeps</h2>
+  <p>The roster, settings, the house, conversations and the logbook are kept in the app's data folder on your Mac. Provider keys are kept in the macOS keychain and never written to a file. The Storage tab in Tron shows every part of this and can delete it.</p>
+
+  <h2>What the app sends</h2>
+  <p>Atlantis runs agents on hosted models, so a turn sends the conversation, the agent's <code>SOUL.md</code> and its skills list to the provider you chose. That provider's own privacy policy covers what happens to it there.</p>
+  <p>The app also reaches the web when:</p>
+  <ul>
+    <li>an agent uses a tool that fetches a page, downloads a file or searches the web</li>
+    <li>a link in an agent's message is drawn as a card, which reads that page's title and picture</li>
+    <li>you browse or install skills from AgentHub</li>
+    <li>Dr. House checks that the internet and your providers can be reached</li>
+  </ul>
+  <p>None of these carry anything about you beyond the request itself.</p>
+
+  <h2>This website</h2>
+  <p>This site is static and hosted on GitHub Pages, which keeps basic server logs. See <a class="link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">GitHub's privacy statement</a>.</p>
+  {%- if site.analytics %}
+  <p>It uses <strong>Google Analytics</strong> to count page views, where visitors come from, their general region, and which builds are downloaded. Google Analytics may set cookies. You can opt out with Google's <a class="link" href="https://tools.google.com/dlpage/gaoptout" rel="noopener" target="_blank">browser add-on</a> or a content blocker.</p>
+  {%- endif %}
+  <p>Downloads are served by GitHub Releases, under the same statement.</p>
+
+  <h2>Changes</h2>
+  <p>If this changes, this page changes with it, and the date at the top moves.</p>
+
+  <h2>Contact</h2>
+  <p>Questions go to <a class="link" href="{{ site.mastodon }}" rel="me noopener" target="_blank">Mastodon</a>.</p>
+</article>

@@ -1,0 +1,61 @@
+{#- One release as a card. `release` is an entry of releases.json, `full` adds the changelog. -#}
+{%- from "icons.njk" import icon -%}
+<article class="release glass reveal" data-archived="{{ release.archived }}" id="v{{ release.version }}">
+  <div class="release-head">
+    <h3 class="release-version">v{{ release.version }}</h3>
+    {%- if release.codename %}<span class="release-codename">{{ release.codename }}</span>{% endif %}
+    <span class="release-chips">
+      {%- if latest and release.version == latest.version %}<span class="chip" data-tone="ready">Latest</span>{% endif -%}
+      {%- if release.stable %}<span class="chip" data-tone="ready">Stable</span>{% else %}<span class="chip" data-tone="working">Pre-release</span>{% endif -%}
+      {%- if release.archived %}<span class="chip">Archived</span>{% endif -%}
+    </span>
+    <time class="release-date" datetime="{{ release.date }}">{{ release.date }}</time>
+  </div>
+
+  {%- if release.notes %}
+  <p class="release-notes">{{ release.notes }}</p>
+  {%- endif %}
+
+  {%- if release.highlights.length %}
+  <ul class="release-highlights">
+    {%- for item in release.highlights %}
+    <li><span>{{ item | inline | safe }}</span></li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+
+  {%- set asset = release.assets[0] %}
+  <div class="release-asset">
+    <div class="asset-label">
+      <img src="/assets/app-icon.png" alt="" width="40" height="40" style="border-radius: 10px" />
+      <div>
+        <strong>{{ asset.os }}</strong>
+        <span class="caption">{{ asset.arch }} · {{ asset.size }}</span>
+      </div>
+    </div>
+    {%- if release.archived %}
+    <span class="caption">No longer hosted</span>
+    {%- else %}
+    <a class="button" href="{{ asset.url }}" data-download="{{ release.version }}">
+      {{ icon("download") }}
+      <span>{{ asset.filename }}</span>
+    </a>
+    {%- endif %}
+  </div>
+
+  {%- if full and release.sections.length %}
+  <details class="release-log">
+    <summary>Full changelog</summary>
+    {%- for group in release.sections %}
+    <div class="log-group" data-type="{{ group.type }}">
+      <h4 class="eyebrow">{{ group.type }}</h4>
+      <ul>
+        {%- for item in group.items %}
+        <li>{{ item | inline | safe }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endfor %}
+  </details>
+  {%- endif %}
+</article>

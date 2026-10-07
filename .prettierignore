@@ -1,0 +1,4 @@
+_site
+pnpm-lock.yaml
+*.njk
+src/_data/releases.json
