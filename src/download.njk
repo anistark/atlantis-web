@@ -5,8 +5,8 @@ description: Download Atlantis for macOS, Apple Silicon and Intel in one build, 
 ground: download
 ---
 
-<section class="page section" aria-labelledby="download-title" style="padding-top: var(--act)">
-  <header class="section-head reveal">
+<section class="page section section-first" aria-labelledby="download-title">
+  <header class="section-head">
     <p class="eyebrow">Download</p>
     <h1 class="title" id="download-title">Atlantis for macOS</h1>
     <p class="lead">One build for Apple Silicon and Intel. The newest few releases stay hosted, and the changelog of every release stays on this page.</p>
@@ -18,9 +18,10 @@ ground: download
       {% include "release.njk" %}
     {%- endfor %}
   {%- else %}
-    <div class="glass empty reveal">
-      <p class="eyebrow">Not yet</p>
+    <div class="glass empty">
+      <img src="/assets/app-icon.png" alt="" width="72" height="72" />
       <p class="lead">The first build is on its way. It will be here the moment it ships.</p>
+      <p class="caption">One download for Apple Silicon and Intel Macs.</p>
     </div>
   {%- endif %}
 

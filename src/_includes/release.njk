@@ -1,6 +1,6 @@
 {#- One release as a card. `release` is an entry of releases.json, `full` adds the changelog. -#}
 {%- from "icons.njk" import icon -%}
-<article class="release glass reveal" data-archived="{{ release.archived }}" id="v{{ release.version }}">
+<article class="release glass" data-archived="{{ release.archived }}" id="v{{ release.version }}">
   <div class="release-head">
     <h3 class="release-version">v{{ release.version }}</h3>
     {%- if release.codename %}<span class="release-codename">{{ release.codename }}</span>{% endif %}

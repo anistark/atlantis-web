@@ -16,7 +16,7 @@
 
     <meta name="description" content="{{ pageDescription }}" />
     <meta name="author" content="{{ site.author }}" />
-    <meta name="theme-color" content="#050a16" />
+    <meta name="theme-color" content="#01040b" />
     <link rel="canonical" href="{{ pageUrl }}" />
 
     <meta property="og:type" content="website" />
@@ -72,10 +72,11 @@
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <div class="ambient" data-ground="{{ ground or 'home' }}" aria-hidden="true"></div>
+    <div class="ambient" data-ground="{{ ground or 'home' }}" aria-hidden="true"><canvas class="sea" data-sea></canvas></div>
     {% include "nav.njk" %}
     <main id="main">{{ content | safe }}</main>
     {% include "footer.njk" %}
+    <script src="/js/sea.js" type="module"></script>
     <script src="/js/main.js" defer></script>
   </body>
 </html>

@@ -10,6 +10,9 @@ export default {
   analytics: "",
   author: "Kumar Anirudha",
   mastodon: "https://fosstodon.org/@ani",
+  // Each social link shows in the footer only once it is filled in.
+  x: "https://x.com/kranirudha",
+  discord: "https://discord.gg/qnnEwNp7te",
   sibling: "https://orionpod.com",
   year: new Date().getFullYear(),
 };

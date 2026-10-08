@@ -1,15 +1,29 @@
+{%- from "icons.njk" import brand -%}
 <footer class="footer">
-  <div class="page footer-inner">
-    <div class="footer-brand">
-      <span class="logo" style="--logo: 20px"></span>
-      <span class="caption">© {{ site.year }} {{ site.author }}</span>
+  <div class="page">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo" style="--logo: 20px"></span>
+        <span class="caption">© {{ site.year }} {{ site.author }}</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="/download/">Download</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+        <li><a href="{{ site.sibling }}" rel="noopener" target="_blank">OrionPod</a></li>
+      </ul>
+      <ul class="social">
+        {%- if site.x %}
+        <li><a class="icon-button" href="{{ site.x }}" rel="noopener" target="_blank" aria-label="X">{{ brand("x") }}</a></li>
+        {%- endif %}
+        {%- if site.mastodon %}
+        <li><a class="icon-button" href="{{ site.mastodon }}" rel="me noopener" target="_blank" aria-label="Fosstodon">{{ brand("mastodon") }}</a></li>
+        {%- endif %}
+        {%- if site.discord %}
+        <li><a class="icon-button" href="{{ site.discord }}" rel="noopener" target="_blank" aria-label="Discord">{{ brand("discord") }}</a></li>
+        {%- endif %}
+      </ul>
     </div>
-    <ul class="footer-links">
-      <li><a href="/download/">Download</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href="/terms/">Terms</a></li>
-      <li><a href="{{ site.mastodon }}" rel="me noopener" target="_blank">Mastodon</a></li>
-      <li><a href="{{ site.sibling }}" rel="noopener" target="_blank">OrionPod</a></li>
-    </ul>
+    <p class="footer-word" aria-hidden="true">{{ site.title }}</p>
   </div>
 </footer>

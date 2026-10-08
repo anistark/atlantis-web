@@ -48,7 +48,7 @@ just dev
 
 ## Look
 
-The site uses the app's own visual system. The colour tokens at the top of `src/css/style.css` are copied from the app's `src/styles.css`, and both themes follow it: night blue with a green that marks what is ready, and a warm paper light theme. The marks in `src/_includes/icons.njk` are the app's icons. When the app's palette moves, copy the tokens across.
+The site uses the app's own visual system. The accent and glass tokens at the top of `src/css/style.css` are copied from the app's `src/styles.css`, with a green that marks what is ready and a blue for what is working. The ground is the site's own: the deep sea in the dark theme and a light blue summer sea in the light one, each lighter at the surface (`--shallows`) and darker below (`--void`). The marks in `src/_includes/icons.njk` are the app's icons. The ground behind every page is `src/js/sea.js`, a sunken city drawn on a canvas from a seed, with fish, jellyfish and a manta moving through it. Its settings sit at the top of the file, and `sea.set({ fish: 120 })` in the browser console tries one live. When the app's palette moves, copy the tokens across.
 
 `src/assets/og.png` is the hero at 1200 by 630, taken from the built site.
 
