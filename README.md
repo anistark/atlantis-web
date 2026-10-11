@@ -24,12 +24,14 @@ The push runs `.github/workflows/deploy.yml`, which builds the site and deploys 
 
 ## What reads the release list
 
-|                               |                                                                                                  |
-| ----------------------------- | ------------------------------------------------------------------------------------------------ |
-| `src/_data/latest.js`         | the newest release still hosted, used by the hero and the download section                       |
-| `src/download.njk`            | one card per release, with the changelog parsed from the app's `CHANGELOG.md`                    |
-| `src/api/latest.json.11ty.js` | `/api/latest.json`, for an app build checking for an update. Not written until the first release |
-| `src/llms.njk`                | `/llms.txt`                                                                                      |
+|                               |                                                                                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/_data/latest.js`         | the newest release still hosted, used by the hero and the download section                                                           |
+| `src/download.njk`            | one card per release, with the changelog parsed from the app's `CHANGELOG.md`                                                        |
+| `src/api/latest.json.11ty.js` | `/api/latest.json`, which every app build reads as it opens to learn whether a newer one is out. Not written until the first release |
+| `src/llms.njk`                | `/llms.txt`                                                                                                                          |
+
+`/api/latest.json` is a contract with every build already installed. The app reads `version` and `codename`, and links to `/download/#v<version>`, the id `src/_includes/release.njk` gives each release card. A test in the app's `crates/atlantis-core/src/updates.rs` holds a copy of the file's fields, so renaming one, or changing the card's id, means changing the app first and leaving the old field in place until the builds that read it are gone.
 
 ## Develop
 

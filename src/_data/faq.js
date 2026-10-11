@@ -22,12 +22,17 @@ export default [
   {
     question: "Does Atlantis send anything about me anywhere?",
     answer:
-      "No. It talks to the model provider you set up, and to the web only when an agent's tool fetches a page or a file, or a link in a message is drawn as a card.",
+      "No. It talks to the model provider you set up, and to the web only when an agent's tool fetches a page or a file, a link in a message is drawn as a card, you browse AgentHub, Dr. House runs its checks, or it asks this site whether a newer build is out as it opens. None of these carry anything about you.",
   },
   {
     question: "macOS says it cannot open Atlantis. What now?",
     answer:
       "Open System Settings, then Privacy and Security, and press Open Anyway beside the message about Atlantis. It is needed once, the first time the app is opened.",
+  },
+  {
+    question: "How do I update?",
+    answer:
+      "Atlantis checks this site as it opens. When a newer build is out, Update shows at the foot of the left sidebar and opens that release here. Download it and drag it over the old app in Applications. Your agents, conversations and keys stay where they are. macOS treats the new build as a new app, so it asks for Open Anyway again, and the keychain asks once more for each provider key.",
   },
   {
     question: "Is it free?",
