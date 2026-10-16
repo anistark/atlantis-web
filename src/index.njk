@@ -4,7 +4,7 @@ layout: base.njk
 {%- from "icons.njk" import icon -%}
 
 <section class="intro page" aria-labelledby="hero-title">
-  <a class="badge" href="/download/">
+  <a class="badge" href="#download">
     <span class="badge-dot" aria-hidden="true"></span>
     {%- if latest %}
     <span>v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for macOS</span>
@@ -24,7 +24,7 @@ layout: base.njk
       {%- elif site.kit %}
       <a class="button" href="#waitlist">Join the waitlist</a>
       {%- else %}
-      <a class="button" href="/download/" aria-disabled="true">
+      <a class="button" href="#download" aria-disabled="true">
         {{ icon("download") }}
         <span>Coming soon</span>
       </a>
@@ -137,7 +137,6 @@ layout: base.njk
     {%- set release = latest %}
     {%- set full = false %}
     {% include "release.njk" %}
-    <p class="caption" style="margin-top: var(--gate-sp)">Older builds and every changelog are on the <a class="link" href="/download/">download page</a>.</p>
   {%- else %}
     <div class="glass empty">
       <img src="/assets/app-icon.png" alt="" width="72" height="72" />
