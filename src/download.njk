@@ -20,7 +20,12 @@ ground: download
   {%- else %}
     <div class="glass empty">
       <img src="/assets/app-icon.png" alt="" width="72" height="72" />
+      {%- if site.kit %}
+      <p class="lead">The first build is on its way. Join the waitlist for early access.</p>
+      {% include "waitlist.njk" %}
+      {%- else %}
       <p class="lead">The first build is on its way. It will be here the moment it ships.</p>
+      {%- endif %}
       <p class="caption">One download for Apple Silicon and Intel Macs.</p>
     </div>
   {%- endif %}

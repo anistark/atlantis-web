@@ -8,6 +8,9 @@ export default {
   repo: "anistark/atlantis-web",
   // Google Analytics measurement id. Left empty, the site loads no analytics at all.
   analytics: "",
+  // Kit form id, the number in the form's embed code. Left empty, the early access waitlist does
+  // not show, and the privacy page does not mention it.
+  kit: "10055530",
   author: "Kumar Anirudha",
   mastodon: "https://fosstodon.org/@ani",
   // Each social link shows in the footer only once it is filled in.

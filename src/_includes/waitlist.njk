@@ -1,0 +1,10 @@
+{#- The early access waitlist. It posts to Kit as a plain form, so it works without the script in
+js/main.js, which only shows Kit's answer in place instead of on Kit's own page. -#}
+<form class="waitlist" id="waitlist" action="https://app.kit.com/forms/{{ site.kit }}/subscriptions" method="post" data-waitlist>
+  <div class="waitlist-field">
+    <label class="sr-only" for="waitlist-email">Email address</label>
+    <input id="waitlist-email" type="email" name="email_address" placeholder="you@example.com" autocomplete="email" required />
+    <button class="button" type="submit">Join the waitlist</button>
+  </div>
+  <p class="caption waitlist-status" role="status" data-waitlist-status>One email when early access opens, with a link in it to leave the list.</p>
+</form>

@@ -18,6 +18,9 @@
     <meta name="author" content="{{ site.author }}" />
     <meta name="theme-color" content="#01040b" />
     <link rel="canonical" href="{{ pageUrl }}" />
+    {%- if noindex %}
+    <meta name="robots" content="noindex" />
+    {%- endif %}
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ pageUrl }}" />

@@ -1,0 +1,22 @@
+---
+layout: base.njk
+title: On the list. Atlantis
+description: Your place on the Atlantis early access waitlist is confirmed.
+permalink: /waitlist/confirmed/
+eleventyExcludeFromCollections: true
+noindex: true
+ground: text
+---
+
+{#- Where Kit sends someone after they press the button in its confirmation email. -#}
+<section class="lost page">
+  <p class="eyebrow">Waitlist</p>
+  <h1 class="display">You are on the list</h1>
+  <p class="lead">Your email is confirmed. When the first build is ready for early access, one email brings it to you. Until then, the house is still being built.</p>
+  <div class="intro-actions">
+    <a class="button" href="/">Back home</a>
+    {%- if site.discord %}
+    <a class="button button-quiet" href="{{ site.discord }}" rel="noopener" target="_blank">Join the Discord</a>
+    {%- endif %}
+  </div>
+</section>

@@ -12,7 +12,7 @@ ground: text
 
   <div class="glass summary">
     <p><strong>The app</strong> has no analytics and no telemetry. What you and your agents write stays on your Mac, apart from what is sent to the model provider you set up so it can answer.</p>
-    <p style="margin-top: var(--frame)"><strong>This website</strong> {% if site.analytics %}uses Google Analytics to count visits and downloads. It has no connection to the app.{% else %}collects nothing beyond the server logs its host keeps.{% endif %}</p>
+    <p style="margin-top: var(--frame)"><strong>This website</strong> {% if site.analytics %}uses Google Analytics to count visits and downloads. It has no connection to the app.{% if site.kit %} It keeps your email address if you join the waitlist.{% endif %}{% else %}collects nothing beyond the server logs its host keeps{% if site.kit %}, and your email address if you join the waitlist{% endif %}.{% endif %}</p>
   </div>
 
   <h2>What the app keeps</h2>
@@ -36,6 +36,9 @@ ground: text
   <p>It uses <strong>Google Analytics</strong> to count page views, where visitors come from, their general region, and which builds are downloaded. Google Analytics may set cookies. You can opt out with Google's <a class="link" href="https://tools.google.com/dlpage/gaoptout" rel="noopener" target="_blank">browser add-on</a> or a content blocker.</p>
   {%- endif %}
   <p>Downloads are served by GitHub Releases, under the same statement.</p>
+  {%- if site.kit %}
+  <p>The early access waitlist is kept by <strong>Kit</strong>. Joining sends Kit your email address, and Kit asks you to confirm it before you are on the list. It is used to tell you when early access opens, and every email has a link to leave the list. See <a class="link" href="https://kit.com/privacy" rel="noopener" target="_blank">Kit's privacy policy</a>.</p>
+  {%- endif %}
 
   <h2>Changes</h2>
   <p>If this changes, this page changes with it, and the date at the top moves.</p>

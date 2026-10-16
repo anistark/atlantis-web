@@ -56,4 +56,4 @@ The site uses the app's own visual system. The accent and glass tokens at the to
 
 ## Settings
 
-`src/_data/site.js` holds the name, the address and the Google Analytics id. With the id empty the site loads no analytics, and the privacy page says so.
+`src/_data/site.js` holds the name, the address, the Google Analytics id and the Kit form id. With the id empty the site loads no analytics, and the privacy page says so. `kit` is the id of the [Kit](https://kit.com) form behind the early access waitlist, shown in place of the download until the first release. With it empty the waitlist does not show.

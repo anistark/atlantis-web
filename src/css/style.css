@@ -1098,6 +1098,70 @@ main > .section:last-child {
   color: var(--lamp);
 }
 
+/* the early access waitlist, one field and its button in a single pill */
+
+.waitlist {
+  display: grid;
+  justify-items: center;
+  gap: var(--frame);
+  width: min(100%, 520px);
+}
+
+.waitlist-field {
+  display: flex;
+  gap: var(--perf);
+  width: 100%;
+  padding: var(--perf);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--glass-strong);
+  box-shadow: inset 0 1px 0 var(--sheen);
+  transition: border-color var(--ease);
+}
+
+.waitlist-field:focus-within {
+  border-color: var(--primary);
+}
+
+.waitlist input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 var(--frame) 0 var(--gate-sp);
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  color: var(--lamp);
+  outline: none;
+}
+
+.waitlist input::placeholder {
+  color: var(--silver);
+}
+
+/* Autofill paints its own background. Holding the transition keeps the glass showing through. */
+.waitlist input:-webkit-autofill {
+  -webkit-text-fill-color: var(--lamp);
+  transition: background-color 9999s;
+}
+
+.waitlist .button:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.waitlist[data-state="done"] .waitlist-field {
+  display: none;
+}
+
+.waitlist-status[data-tone="ready"] {
+  color: var(--primary);
+}
+
+.waitlist-status[data-tone="caution"] {
+  color: var(--warn);
+}
+
 /* requirements and install, two glass panels side by side */
 
 .facts {
@@ -1474,5 +1538,14 @@ main > .section:last-child {
   .intro-actions .button,
   .release-asset .button {
     width: 100%;
+  }
+
+  .waitlist-field {
+    flex-direction: column;
+    border-radius: 20px;
+  }
+
+  .waitlist input {
+    padding: var(--frame);
   }
 }

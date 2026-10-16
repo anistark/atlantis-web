@@ -158,3 +158,56 @@ document.addEventListener("click", (event) => {
     window.gtag("event", "download", { version: link.dataset.download });
   }
 });
+
+// The early access waitlist. The form posts to Kit on its own, and Kit shows its own page. This
+// sends it the way Kit's embed script does, asking for JSON, so the answer shows in place.
+for (const form of document.querySelectorAll("[data-waitlist]")) {
+  const button = form.querySelector("button");
+  const status = form.querySelector("[data-waitlist-status]");
+  const say = (text, tone = "") => {
+    status.textContent = text;
+    status.dataset.tone = tone;
+  };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    button.disabled = true;
+    say("Joining...");
+    // The fields and header Kit's own script adds to every sign up, so this one looks the same.
+    const body = new FormData(form);
+    body.append("referrer", document.referrer);
+    body.append("host", document.location.href);
+    body.append("search", document.location.search);
+    body.append("ckjs_version", "6");
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body,
+        headers: { Accept: "application/json", "X-CKJS-Version": "6" },
+      });
+      const answer = await response.json();
+      if (answer.status === "success") {
+        form.dataset.state = "done";
+        say("You are on the list. Check your inbox and confirm your email.", "ready");
+        if (typeof window.gtag === "function") window.gtag("event", "waitlist");
+      } else if (answer.status === "quarantined") {
+        // Kit wants to know a person is signing up. Its own page asks, then finishes the sign up.
+        const check = Object.assign(document.createElement("a"), {
+          className: "link",
+          href: answer.url,
+          target: "_blank",
+          rel: "noopener",
+          textContent: "Finish on Kit",
+        });
+        say("One more step to show you are not a bot. ", "caution");
+        status.append(check);
+      } else {
+        say(answer.errors?.messages?.join(" ") || "That did not go through. Try again.", "caution");
+      }
+    } catch {
+      say("That did not go through. Try again in a moment.", "caution");
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
