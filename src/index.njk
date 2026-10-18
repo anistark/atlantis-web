@@ -133,32 +133,6 @@ layout: base.njk
   </ul>
 </section>
 
-<section class="section page" aria-labelledby="principles-title">
-  <div class="vow glass">
-    <header class="vow-head">
-      <p class="eyebrow">How it behaves</p>
-      <h2 class="title" id="principles-title">Your {{ platforms.machine }}, your keys, your folders</h2>
-    </header>
-    <ul class="vows">
-      <li>
-        {{ icon("key") }}
-        <h3>Keys in the keychain</h3>
-        <p>A provider key is kept in {{ platforms.keychain }} and read only when it is about to be sent. It is never written to a file.</p>
-      </li>
-      <li>
-        {{ icon("folder") }}
-        <h3>Agents stay home</h3>
-        <p>A tool call that would leave the agent's folder, through <code>..</code>, an absolute path or a symlink, is refused before anything is touched.</p>
-      </li>
-      <li>
-        {{ icon("ban") }}
-        <h3>Nothing runs a command</h3>
-        <p>Agents read and change the files they were given, fetch from the web and tell you things. None of them can run a program on your machine.</p>
-      </li>
-    </ul>
-  </div>
-</section>
-
 <section class="section page" id="download" aria-labelledby="download-title">
   <header class="section-head">
     <p class="eyebrow">Download</p>
