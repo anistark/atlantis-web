@@ -947,7 +947,6 @@ main > .section:last-child {
 .release-highlights {
   display: grid;
   gap: var(--frame);
-  max-width: 80ch;
   margin: var(--gate-sp) 0 0;
   padding: 0;
   list-style: none;
@@ -1049,7 +1048,6 @@ main > .section:last-child {
 .log-group ul {
   display: grid;
   gap: var(--frame);
-  max-width: 80ch;
   margin: 0;
   padding-left: var(--gate-sp);
   font-size: 16px;
