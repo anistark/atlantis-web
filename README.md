@@ -15,9 +15,9 @@
 The app lives in a private repo. Its `just publish` does the release end to end:
 
 1. tags the app repo with `v<version>`
-2. creates a GitHub release here with the DMG attached, a pre-release when the version has a suffix like `-beta.1`
+2. creates a GitHub release here with the DMG attached, and the Linux and Windows packages when the app's Package workflow built that commit, a pre-release when the version has a suffix like `-beta.1`
 3. deletes all but the newest three releases here, with their tags
-4. writes the release into `src/_data/releases.json` and marks the ones no longer hosted as archived
+4. writes the release into `src/_data/releases.json`, an asset per file with the DMG first, and marks the ones no longer hosted as archived
 5. commits `release: v<version>` and pushes `main`
 
 The push runs `.github/workflows/deploy.yml`, which builds the site and deploys it to GitHub Pages. `src/_data/releases.json` is written by that script, so it is not edited by hand.
@@ -27,6 +27,7 @@ The push runs `.github/workflows/deploy.yml`, which builds the site and deploys 
 |                               |                                                                                                                                      |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `src/_data/latest.js`         | the newest release still hosted, used by the hero and the download section                                                           |
+| `src/_data/platforms.js`      | the platforms the newest release ships for. Every page names only those, so the site says macOS until a release carries more         |
 | `src/download.njk`            | one card per release, with the changelog parsed from the app's `CHANGELOG.md`                                                        |
 | `src/api/latest.json.11ty.js` | `/api/latest.json`, which every app build reads as it opens to learn whether a newer one is out. Not written until the first release |
 | `src/llms.njk`                | `/llms.txt`                                                                                                                          |

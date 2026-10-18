@@ -7,7 +7,7 @@ layout: base.njk
   <a class="badge" href="#download">
     <span class="badge-dot" aria-hidden="true"></span>
     {%- if launched %}
-    <span>v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for macOS</span>
+    <span>v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for {{ platforms.names }}</span>
     {%- else %}
     <span>Coming soon for macOS</span>
     {%- endif %}
@@ -17,10 +17,17 @@ layout: base.njk
     <p class="lead">Each one lives in a folder of its own, works with tools that stay inside it, and joins the others when you ask the room.</p>
     <div class="intro-actions">
       {%- if launched %}
+      {%- if platforms.only %}
       <a class="button" href="{{ latest.assets[0].url }}" data-download="{{ latest.version }}">
         {{ icon("download") }}
         <span>Download for macOS</span>
       </a>
+      {%- else %}
+      <a class="button" href="#download">
+        {{ icon("download") }}
+        <span>Download</span>
+      </a>
+      {%- endif %}
       {%- elif site.kit %}
       <a class="button" href="#waitlist">Join the waitlist</a>
       {%- else %}
@@ -39,7 +46,7 @@ layout: base.njk
   <header class="split-head">
     <p class="eyebrow">What it does</p>
     <h2 class="title" id="features-title">A roster, a house and a workshop</h2>
-    <p class="split-lead">Atlantis keeps a roster of agents on your Mac. You talk to one at a time or to all of them at once, and you can watch them go about their day.</p>
+    <p class="split-lead">Atlantis keeps a roster of agents on your {{ platforms.machine }}. You talk to one at a time or to all of them at once, and you can watch them go about their day.</p>
   </header>
 
   <ul class="rooms">
@@ -106,13 +113,13 @@ layout: base.njk
   <div class="vow glass">
     <header class="vow-head">
       <p class="eyebrow">How it behaves</p>
-      <h2 class="title" id="principles-title">Your Mac, your keys, your folders</h2>
+      <h2 class="title" id="principles-title">Your {{ platforms.machine }}, your keys, your folders</h2>
     </header>
     <ul class="vows">
       <li>
         {{ icon("key") }}
         <h3>Keys in the keychain</h3>
-        <p>A provider key is kept in the macOS keychain and read only when it is about to be sent. It is never written to a file.</p>
+        <p>A provider key is kept in {{ platforms.keychain }} and read only when it is about to be sent. It is never written to a file.</p>
       </li>
       <li>
         {{ icon("folder") }}

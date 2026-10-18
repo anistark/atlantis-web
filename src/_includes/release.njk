@@ -24,13 +24,13 @@
   </ul>
   {%- endif %}
 
-  {%- set asset = release.assets[0] %}
+  {%- for asset in release.assets %}
   <div class="release-asset">
     <div class="asset-label">
       <img src="/assets/app-icon.png" alt="" width="40" height="40" style="border-radius: 10px" />
       <div>
         <strong>{{ asset.os }}</strong>
-        <span class="caption">{{ asset.arch }} · {{ asset.size }}</span>
+        <span class="caption">{{ asset.arch }}{% if asset.format and asset.format != "DMG" %} · {{ asset.format }}{% endif %} · {{ asset.size }}</span>
       </div>
     </div>
     {%- if release.archived %}
@@ -42,6 +42,7 @@
     </a>
     {%- endif %}
   </div>
+  {%- endfor %}
 
   {%- if full and release.sections.length %}
   <details class="release-log">

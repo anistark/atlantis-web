@@ -974,6 +974,10 @@ main > .section:last-child {
   border-top: 1px solid var(--edge);
 }
 
+.release-asset + .release-asset {
+  margin-top: var(--gate-sp);
+}
+
 .asset-label {
   display: flex;
   align-items: center;

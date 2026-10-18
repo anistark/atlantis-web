@@ -6,15 +6,17 @@ eleventyExcludeFromCollections: true
 
 > {{ site.description }}
 
-Atlantis is a macOS desktop app, built with Tauri, Rust and React, for keeping a roster of AI agents that run on hosted models.
+Atlantis is a {% if platforms.only %}macOS desktop app{% else %}desktop app for {{ platforms.names }}{% endif %}, built with Tauri, Rust and React, for keeping a roster of AI agents that run on hosted models.
 
 ## Key facts
 
 - Website: {{ site.url }}
-- Platform: macOS, Apple Silicon and Intel in one universal build
+- Platform{% if not platforms.only %}s{% endif %}: macOS, Apple Silicon and Intel in one universal build{% if platforms.windows %}. Windows, x64{% endif %}{% if platforms.linux %}. Linux, x64{% endif %}
 {%- if launched %}
 - Latest version: {{ latest.version }}{% if latest.codename %} ({{ latest.codename }}){% endif %}, released {{ latest.date }}
-- Download: {{ latest.assets[0].url }}
+{%- for asset in latest.assets %}
+- Download for {{ asset.os }}{% if asset.format != "DMG" %}, {{ asset.format }}{% endif %}: {{ asset.url }}
+{%- endfor %}
 {%- endif %}
 - Models: hosted, through an Ollama Cloud key or an endpoint added by hand
 - Price: free
@@ -32,7 +34,7 @@ Atlantis is a macOS desktop app, built with Tauri, Rust and React, for keeping a
 
 ## Privacy
 
-The app has no analytics or telemetry. Keys are kept in the macOS keychain. Data stays in the app's data folder on the Mac, apart from what is sent to the chosen model provider and the web requests agents' tools make.
+The app has no analytics or telemetry. Keys are kept in {{ platforms.keychain }}. Data stays in the app's data folder on the {{ platforms.machine }}, apart from what is sent to the chosen model provider and the web requests agents' tools make.
 
 ## Links
 

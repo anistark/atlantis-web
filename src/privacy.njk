@@ -11,12 +11,12 @@ ground: text
   <p class="caption" style="margin-top: var(--frame)">Last updated October 2026</p>
 
   <div class="glass summary">
-    <p><strong>The app</strong> has no analytics and no telemetry. What you and your agents write stays on your Mac, apart from what is sent to the model provider you set up so it can answer.</p>
+    <p><strong>The app</strong> has no analytics and no telemetry. What you and your agents write stays on your {{ platforms.machine }}, apart from what is sent to the model provider you set up so it can answer.</p>
     <p style="margin-top: var(--frame)"><strong>This website</strong> {% if site.analytics %}uses Google Analytics to count visits and downloads. It has no connection to the app.{% if site.kit %} It keeps your email address if you join the waitlist.{% endif %}{% else %}collects nothing beyond the server logs its host keeps{% if site.kit %}, and your email address if you join the waitlist{% endif %}.{% endif %}</p>
   </div>
 
   <h2>What the app keeps</h2>
-  <p>The roster, settings, the house, conversations and the logbook are kept in the app's data folder on your Mac. Provider keys are kept in the macOS keychain and never written to a file. The Storage tab in Tron shows every part of this and can delete it.</p>
+  <p>The roster, settings, the house, conversations and the logbook are kept in the app's data folder on your {{ platforms.machine }}. Provider keys are kept in {{ platforms.keychain }} and never written to a file. The Storage tab in Tron shows every part of this and can delete it.</p>
 
   <h2>What the app sends</h2>
   <p>Atlantis runs agents on hosted models, so a turn sends the conversation, the agent's <code>SOUL.md</code> and its skills list to the provider you chose. That provider's own privacy policy covers what happens to it there.</p>

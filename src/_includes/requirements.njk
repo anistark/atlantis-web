@@ -4,17 +4,42 @@
     <h2 id="needs">What it needs</h2>
     <ul>
       <li>A Mac, Apple Silicon or Intel. One download carries both.</li>
+      {%- if platforms.windows %}
+      <li>Or a PC on Windows 10 or 11, x64. The installer fetches Microsoft's WebView2 if Windows does not have it yet.</li>
+      {%- endif %}
+      {%- if platforms.linux %}
+      <li>Or Linux on x64 with glibc 2.35 or newer, which is Ubuntu 22.04, Debian 12, Fedora 36 and anything after.</li>
+      {%- endif %}
       <li>A model to talk to: an <a class="link" href="https://ollama.com/settings/keys" rel="noopener" target="_blank">Ollama Cloud key</a>, or an endpoint you point Atlantis at yourself.</li>
       <li>Room on the disk for the roster, its conversations and the logbook. The Storage tab in Tron says how much is used.</li>
     </ul>
   </section>
   <section class="glass span-7" aria-labelledby="install">
     <p class="eyebrow">Install</p>
+    {%- if platforms.only %}
     <h2 id="install">Three steps</h2>
     <ol>
       <li>Open the DMG and drag Atlantis onto Applications.</li>
       <li>Open it from Applications. If macOS says it cannot check the developer, open System Settings, then Privacy and Security, and press Open Anyway.</li>
       <li>Add a provider in Tron and make your first agent.</li>
     </ol>
+    {%- else %}
+    <h2 id="install">Two steps</h2>
+    <ol>
+      <li>
+        Install it the way your system does.
+        <ul>
+          <li><strong>macOS</strong>: open the DMG, drag Atlantis onto Applications and open it from there. If macOS says it cannot check the developer, open System Settings, then Privacy and Security, and press Open Anyway.</li>
+          {%- if platforms.windows %}
+          <li><strong>Windows</strong>: run the installer. The build is not signed yet, so Windows may say it protected your PC: press More info, then Run anyway.</li>
+          {%- endif %}
+          {%- if platforms.linux %}
+          <li><strong>Linux</strong>: install the <code>.deb</code> with <code>sudo apt install ./Atlantis_*.deb</code> or the <code>.rpm</code> with <code>sudo dnf install ./Atlantis-*.rpm</code>. Or run the AppImage after <code>chmod +x Atlantis_*.AppImage</code>. It needs FUSE 2, which Ubuntu 24.04 and newer leave out: <code>sudo apt install libfuse2t64</code>.</li>
+          {%- endif %}
+        </ul>
+      </li>
+      <li>Add a provider in Tron and make your first agent.</li>
+    </ol>
+    {%- endif %}
   </section>
 </div>
