@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 ---
-{%- from "icons.njk" import icon -%}
+{%- from "icons.njk" import icon, brand -%}
 
 <section class="intro page" aria-labelledby="hero-title">
   <a class="badge" href="#download">
@@ -106,6 +106,30 @@ layout: base.njk
         <p>Providers and models, a Storage tab that says what is using the disk, and Dr. House, which checks the app itself and says what is wrong.</p>
       </div>
     </li>
+  </ul>
+</section>
+
+<section class="section page" id="providers" aria-labelledby="providers-title">
+  <header class="section-head">
+    <p class="eyebrow">Providers</p>
+    <h2 class="title" id="providers-title">Run on the models you already use</h2>
+    <p class="lead">An agent runs on whichever model you point it at. The ones marked ready work in the build you can get today, and the rest are coming next.</p>
+  </header>
+  <ul class="providers">
+    {%- for provider in providers %}
+    <li class="provider glass" data-ready="{{ 'true' if provider.ready else 'false' }}">
+      <div class="provider-top">
+        <span class="provider-mark">{{ brand(provider.mark) if provider.mark else icon(provider.icon) }}</span>
+        {%- if provider.ready %}
+        <span class="chip" data-tone="ready">Ready</span>
+        {%- else %}
+        <span class="chip">Soon</span>
+        {%- endif %}
+      </div>
+      <h3>{{ provider.name }}</h3>
+      <p>{{ provider.about }}</p>
+    </li>
+    {%- endfor %}
   </ul>
 </section>
 

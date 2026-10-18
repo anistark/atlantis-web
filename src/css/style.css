@@ -842,6 +842,89 @@ main > .section:last-child {
   color: var(--silver);
 }
 
+/* providers: what an agent can run on, the ready ones lit and the rest held back */
+
+.providers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--frame);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.provider {
+  display: flex;
+  flex-direction: column;
+  padding: var(--gate-sp);
+}
+
+.provider-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--frame);
+  margin-bottom: var(--reel);
+}
+
+.provider-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  background: var(--glass);
+  box-shadow: inset 0 1px 0 var(--sheen);
+  color: var(--lamp);
+}
+
+.provider-mark svg {
+  width: 26px;
+  height: 26px;
+}
+
+.provider h3 {
+  margin: 0 0 var(--perf);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.provider p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--silver);
+}
+
+.provider[data-ready="true"] {
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.provider[data-ready="true"] .provider-mark {
+  border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--sheen),
+    0 0 24px -6px var(--primary);
+  color: var(--primary);
+}
+
+.provider[data-ready="false"] {
+  background: none;
+  box-shadow: none;
+  border-style: dashed;
+}
+
+.provider[data-ready="false"] .provider-mark,
+.provider[data-ready="false"] h3 {
+  opacity: 0.6;
+}
+
+.provider[data-ready="false"] p {
+  opacity: 0.8;
+}
+
 /* vow: the three promises, one panel */
 
 .vow {
@@ -1456,6 +1539,10 @@ main > .section:last-child {
     padding: var(--reel);
   }
 
+  .providers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .vows {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--reel);
@@ -1502,6 +1589,10 @@ main > .section:last-child {
   .room {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--frame);
+  }
+
+  .providers {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .faq details p {
