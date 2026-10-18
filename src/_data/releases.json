@@ -1,1 +1,89 @@
-[]
+[
+  {
+    "version": "0.7.0",
+    "tag": "v0.7.0",
+    "codename": "Ode to Joy",
+    "date": "2026-10-18",
+    "stable": true,
+    "notes": "Group of Agents at your service",
+    "highlights": [],
+    "sections": [
+      {
+        "type": "Added",
+        "items": [
+          "Following a link from one book in the library to another takes you to the shelf that book is on, upstairs or down, standing in front of it with its label in view. Back takes you to the shelf of the book before.",
+          "Start an LLM wiki of your own with New library under Tron's `Library` tab. Give it a name and a line on what it is about, and it is laid out with `raw/` for sources, `wiki/` for pages, an index, a log and a `CONVENTIONS.md` saying how pages are written, then connected as the library. A new librarian keeps it by default, living in the library's own folder so the whole thing opens as one Obsidian vault, or an agent you already have keeps it in a folder of its home. Either way the keeper gets skills to ingest a source, answer from the wiki and check it. A folder with anything in it is never written over.",
+          "The Oracle page is a house you can walk around in 3D, with an office, a conference room, a library, a kitchen, a lounge, a game room and the front door, and every agent lives in it. An agent mid-turn sits at a desk with the tool it is running over its head, one working in the Garage sits at the conference table, an offline one stands outside the front door saying why. The rest follow their needs: hungry after a lot of tokens, they go to the kitchen, and bored after a run of turns, they go to the game room, and come back to the lounge once they have eaten or played. They walk between rooms as that changes. WASD walks, the scroll wheel zooms, Shift and the scroll wheel tilt, on a trackpad too, and V changes the view. Beside an agent, T opens its chat over the house and I its sheet. The house takes the app's colours in both themes and replaces the empty watch list. It is `world.json` in the app's data folder, so it can be rearranged by editing it, and the Storage tab counts it under Settings.",
+          "You walk the house as a figure of your own. `Customise Avatar` under Tron's `Appearance` tab opens a studio with your figure on a turntable, where you choose a gender, a hair style and your clothes and roll a new face and build before saving. Agents dress for work.",
+          "The agent sheet shows an agent's energy, hunger and fun. Energy is how much of its context window is free.",
+          "Notifications, as lines in the logbook marked with a bell. A failed diagnostic check and anything an agent says in the Garage are notifications. Akashic Records has a `Notifications only` switch that shows them alone, at the level the slider is on.",
+          "A `notify` tool, so an agent can tell you something as a notification, like a long task finishing or a decision waiting on you, at the level it picks.",
+          "A startup sound, a short chime as Atlantis opens. Off by default, turned on under Tron's `Appearance` tab.",
+          "Pictures in an agent's home show in the chat, whether it writes the path out, as a Markdown image or as an Obsidian embed like `![[doodle.webp]]`. A path from inside a note, like `assets/doodle.webp`, is found too. PNG, JPEG, GIF, WebP, AVIF, SVG, BMP, HEIC and ICO up to 8 MB, and nothing outside the agent's home is ever read.",
+          "Atlantis runs the full diagnostics while it starts, and the loading screen lists each check as it lands, with `ok`, `fail` or `skip`. The keychain asks for each provider's key there, once, so a conversation never stops mid-turn for it. When a check fails, the loading screen stays up and says what failed, with `Run again` and `Open anyway`. Tron's House tab opens on that run, and a failed check is a warning in the logbook.",
+          "Atlantis checks [atlantis.orionpod.com](https://atlantis.orionpod.com) for a newer build as it opens. When there is one, `Update` shows in green beside the version at the foot of the left sidebar, or a green dot on the collapsed rail, and opens that release on the download page. Nothing is downloaded or installed by itself.",
+          "An About tab in Tron, one card with the version and the machine it runs on, a `Check for updates` button beside it, what Atlantis is built with (orion-core, Runek, Tauri and WebKit), links to the website, Discord and the policies, and the author's Mastodon, X and GitHub.",
+          "`just version`, `just package`, `just publish` and `just release`, which release a build to [atlantis-web](https://github.com/anistark/atlantis-web) and update the site at [atlantis.orionpod.com](https://atlantis.orionpod.com). `just package` builds one universal app for Apple Silicon and Intel and puts it in a DMG with `hdiutil` alone. `just publish` tags the repo, attaches the DMG to a release on atlantis-web, keeps the newest three there and writes the release, with its changelog, into the site's release list.",
+          "Agents can ask each other for help. Every agent has an `Ask agent` tool that hands a task to any other agent that can answer and gets its answer back. The agent asked works with its own tools in its own home, its work shows under the call while you wait, and it shows as busy in the roster and at a desk in the Oracle. Each pair of agents keeps a conversation of its own, so a helper remembers what it was asked before, and every ask and answer is posted in the Garage. An agent asked for help cannot ask anyone further.",
+          "An agent can ask another in the background and carry on. When the answer lands, the asking agent replies to it in its chat without you sending anything, and the answer is a notification. An answer still out when Atlantis closes is lost, and the agent is told so on its next turn.",
+          "Notifications show as macOS banners, headed by the agent that sent them, and play a short sound. Each can be switched off: banners under Tron's `General` tab, the sound under `Appearance`.",
+          "An agent's `SOUL.md` can say how it looks, in a sentence under an `## Appearance` heading like `You are a tall, lean man, and you dress in a dark suit and tie.`, and the Oracle dresses and shapes its figure to match. Gender, build, height, clothes, skin colour, hair, hair colour and facial hair are read off the words, and whatever the file leaves out is the figure the agent always had. A change to the file shows the next time the Oracle opens, or after Read again.",
+          "An Appearance tab on the agent sheet, beside Skills, to choose how an agent looks without editing its `SOUL.md` by hand. The agent stands on a turntable that you drag to turn, with a row of choices each for height, age, gender, build, skin colour, hair, hair colour, facial hair and clothes, and `Any` leaves a part to the figure the agent always had. The sentence that will go under `## Appearance` shows above the choices as you pick, and Save writes it, leaving the rest of the file as it was.",
+          "New clothes to dress a figure in: a suit, a dark jacket and trousers of one cloth with a white shirt and a tie, a chic camel trench open over black with ankle boots and a bag, and a sage's robe and cloak with a staff. Hair can be medium, cut to the jaw, and a figure can be an elder, a little shorter and stooped.",
+          "How far one turn may go is set under Tron's `General` tab: the tool rounds, how many times a turn may go back to the model with a tool's answer, and the model call time, how long one call to a model may take."
+        ]
+      },
+      {
+        "type": "Changed",
+        "items": [
+          "The library reads any folder of Markdown, not only an LLM wiki in the Karpathy shape. A flat vault's notes, and any loose beside the folders, are shelved under Notes. Tags are read however a vault writes them, `tags: ml`, `tags: ml, evals`, `tag:`, `Tags:` or Obsidian's `#tags` in the text, and `ML` and `ml` are one subject. `.markdown` files are pages, folders named `inbox`, `review`, `config` or `campaigns` are read like any other, and a vault's `Templates` and `attachments` are left out. Agents are pointed at the library's `index.md` only when there is one.",
+          "A turn may take 200 tool rounds rather than 32, and a model call 3000 seconds rather than 120, unless set otherwise.",
+          "orion-core 0.8.0. Every tool takes a `ToolContext`, and a turn returns everything it added but what was typed, since the harness can now add messages ahead of it. `tokio` is a dependency of the shell rather than only of its tests.",
+          "About Atlantis in the menu bar shows the app's icon, the tagline, a link to the website and the copyright, and the version once rather than twice.",
+          "A dev run, `just dev`, skips the diagnostics on the loading screen, which shows them as `skip`. Dr. House still runs them when asked.",
+          "The typecheck is `tsc -b`, so the Runek components copied into `src/runek/` are checked under their own settings, in `tsconfig.runek.json`, and the app's stay as strict as before.",
+          "The Storage tab says how much of the disk is still free, `(234 GB usable)`, in green, or in yellow when it's under the 200 MB Dr. House warns about.",
+          "The House tab in Tron is called Dr. House.",
+          "Both sidebars start collapsed to their icon rails. Click a rail's mark to open it.",
+          "Dr. House's quick and full picker is headed `Diagnostics Centre` rather than `Scope`, and Run is a play button that turns into a locking reticle while the checks run.",
+          "The number of skills on the agent sheet's Skills tab is a pill, the way the sidebar counts its agents.",
+          "The Oracle opens in first person, facing the lounge. V still switches to the view from behind and the one from overhead.",
+          "`Customise Avatar` is disabled while the Oracle is in first person, where your figure is out of sight.",
+          "Tool rounds and model call time are sliders, stepping through set values from 1 to 1000 rounds and from 10 seconds to a day.",
+          "In the Oracle, an agent answers a question where it is, and only goes to a desk in the office once the turn has run for half a minute. The same goes for an agent helping another.",
+          "Each agent has a usual room it waits in while it wants for nothing: the lounge, the office, the conference room or the new library. Set it under Usual room when editing an agent.",
+          "Connect the library to a folder of Markdown, like an LLM wiki, under Tron's new `Library` tab. The Oracle's library takes its name, from its README or its folder, and shelves it like a real library, by subject read off each page's tags, with each shelf labelled with its subject and the letters it runs between, a book per page, and clicking a book, or the open book on the lectern, opens the page to read over the house, links and all. Every agent can read the library with its tools from its next turn, and is told where it is. The tab shows how many pages each section holds.",
+          "Every page has a pixel-art room behind it: a cyberpunk tech conference room for the Garage, an armory for the Armory, a cyber control centre for Tron and a file and analysis room for the Akashic Records. Each agent's chat gets a room for what it does, a library, a studio, a chamber, a lab or a study, in both themes.",
+          "Tron's settings sit on liquid glass, a frosted card with a frosted tile for each row.",
+          "The Oracle fills the whole window, with the sidebars and the title floating over the world like a HUD.",
+          "The Oracle opens where you left it: where you stood, the way you faced and the view you were in.",
+          "The Oracle's sky follows your own clock: a daylight sky with the sun moving across it, a sunset, and stars at night, with the light changing to match and the house's ceiling lights coming on as it gets dark.",
+          "The house is finished: full-height walls, open doors in every doorway, windows to the outside, and ceilings over the rooms and the library, which the overhead view still sees through.",
+          "The house looks out to sea: a green terrace with palms runs down to a wide beach, with a dock, sailboats on the open ocean, a campfire on the sand and rocky headlands either side of the cove.",
+          "The house has a round library off its west side, through a door beside the lounge sofa: a two-storey rotunda with a glass curtain wall, a gallery on columns reached by a grand stair, curved shelves on both floors with room for some 2,600 books, the library's name on the wall at the top of the stair, a clock that keeps your own timezone and names it, and couches and reading tables upstairs and down. Only the library's real pages are books.",
+          "Agents get lonely. A new Social need empties over an hour with no work and no break, and a lonely agent goes to the lounge for a few minutes before heading back. It shows on the agent sheet beside energy, hunger and fun."
+        ]
+      },
+      {
+        "type": "Fixed",
+        "items": [
+          "A long robe, dress or coat in the Oracle no longer loses its front and sides toward the hem.",
+          "The loading screen is removed once it fades, instead of staying behind the app, invisible and still animating.",
+          "A reply where the agent wrote its tool call as XML tags, or made up the tool's answer after the call, no longer shows that markup. A call written that way that never ran shows as not run, like any other.",
+          "Opening a plugin from `Browse AgentHub` and coming back keeps the search and the `Skills`/`Everything` filter.",
+          "A plugin whose AgentHub entry points at a folder its repository no longer has says so, instead of that it carries no skills."
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "os": "macOS",
+        "arch": "Universal, Apple Silicon and Intel",
+        "filename": "Atlantis_0.7.0_universal.dmg",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.7.0/Atlantis_0.7.0_universal.dmg",
+        "size": "19 MB"
+      }
+    ],
+    "archived": false
+  }
+]
