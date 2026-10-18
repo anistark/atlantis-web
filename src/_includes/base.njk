@@ -63,7 +63,7 @@
         "description": {{ site.description | dump | safe }},
         "applicationCategory": "ProductivityApplication",
         "operatingSystem": "macOS",
-        {%- if latest %}
+        {%- if launched %}
         "softwareVersion": "{{ latest.version }}",
         "downloadUrl": "{{ latest.assets[0].url }}",
         {%- endif %}

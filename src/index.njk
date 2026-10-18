@@ -6,7 +6,7 @@ layout: base.njk
 <section class="intro page" aria-labelledby="hero-title">
   <a class="badge" href="#download">
     <span class="badge-dot" aria-hidden="true"></span>
-    {%- if latest %}
+    {%- if launched %}
     <span>v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for macOS</span>
     {%- else %}
     <span>Coming soon for macOS</span>
@@ -16,7 +16,7 @@ layout: base.njk
   <div class="intro-foot">
     <p class="lead">Each one lives in a folder of its own, works with tools that stay inside it, and joins the others when you ask the room.</p>
     <div class="intro-actions">
-      {%- if latest %}
+      {%- if launched %}
       <a class="button" href="{{ latest.assets[0].url }}" data-download="{{ latest.version }}">
         {{ icon("download") }}
         <span>Download for macOS</span>
@@ -133,7 +133,7 @@ layout: base.njk
     <p class="eyebrow">Download</p>
     <h2 class="title" id="download-title">The latest build</h2>
   </header>
-  {%- if latest %}
+  {%- if launched %}
     {%- set release = latest %}
     {%- set full = false %}
     {% include "release.njk" %}
