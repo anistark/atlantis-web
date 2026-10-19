@@ -1,17 +1,13 @@
 // What the app can run models through, or will. `ready` is what the newest release ships, so
-// a provider built but not yet released, or not built yet, reads as soon. The ready ones lead,
-// and the rest follow by how widely they are used.
+// a provider built but not yet released, or not built yet, reads as soon. Four to a row: the
+// ready one and the labs first, OpenAI beside ChatGPT on the second with OrionPod, and the
+// rest after.
 export default [
   {
     name: "Ollama Cloud",
     mark: "ollama",
     ready: true,
     about: "Open models on Ollama's servers, through an API key.",
-  },
-  {
-    name: "OpenAI",
-    mark: "openai",
-    about: "GPT models, billed to an API key.",
   },
   {
     name: "Anthropic",
@@ -24,6 +20,16 @@ export default [
     about: "Gemini models, billed to an API key from AI Studio.",
   },
   {
+    name: "xAI",
+    mark: "xai",
+    about: "Grok models, billed to an API key.",
+  },
+  {
+    name: "OpenAI",
+    mark: "openai",
+    about: "GPT models, billed to an API key.",
+  },
+  {
     name: "ChatGPT",
     mark: "openai",
     about: "Sign in with ChatGPT and run on your plan.",
@@ -34,9 +40,9 @@ export default [
     about: "Most labs' models on one key, or sign in to make one.",
   },
   {
-    name: "xAI",
-    mark: "xai",
-    about: "Grok models, billed to an API key.",
+    name: "OrionPod",
+    mark: "orionpod",
+    about: "Models running on your own machine, through our own runtime.",
   },
   {
     name: "DeepSeek",
@@ -52,11 +58,6 @@ export default [
     name: "OpenCode Go",
     mark: "opencode",
     about: "Open models on one subscription.",
-  },
-  {
-    name: "OrionPod",
-    mark: "orionpod",
-    about: "Models running on your own machine, through our own runtime.",
   },
   {
     name: "Bring your own endpoint",
