@@ -34,6 +34,21 @@ The push runs `.github/workflows/deploy.yml`, which builds the site and deploys 
 
 `/api/latest.json` is a contract with every build already installed. The app reads `version` and `codename`, and links to `/download/#v<version>`, the id `src/_includes/release.njk` gives each release card. A test in the app's `crates/atlantis-core/src/updates.rs` holds a copy of the file's fields, so renaming one, or changing the card's id, means changing the app first and leaving the old field in place until the builds that read it are gone.
 
+## Model leaderboard
+
+`/leaderboard/` rates every model Atlantis can run out of 10, linked from the footer. A rating is a model's share of the best score any model has today on the Artificial Analysis Intelligence Index, so 10 is the strongest model available and an open model that scores like it rates like it. The app shows the same rating beside every model, from its own copy of the scores in `crates/atlantis-core/src/power.rs`.
+
+|                            |                                                                       |
+| -------------------------- | --------------------------------------------------------------------- |
+| `src/_data/matrix.json`    | the scores, with every other published benchmark and its sources      |
+| `src/_data/leaderboard.js` | the rating, worked out the way `power.rs` works it out, and the order |
+| `src/leaderboard.njk`      | the page                                                              |
+| `src/js/leaderboard.js`    | the filters, the table and graph switch, and the graph itself         |
+
+The page shows the scores as a table or as a graph, and remembers which. A search box, a list to tick any number of labs from, and an open-weights switch filter both. The graph is one view that never scrolls inside: every ranked model is a bubble with its name inside, drawn like a bubble under water, a sphere clear in the middle with its colour at the rim, at the height of its index score on a 0 to 80 scale, which leaves room over the best model for the next, in a column for the number of sources behind it. Several models share a score exactly, so overlapping bubbles are pushed apart, sideways first, and each one settles within a fraction of a point of its score, which the card on hover gives exactly. The field is laid out full size and shown scaled down so all of it fits. Pinching, Ctrl or Cmd with a scroll, a double click, or the zoom buttons scale it up around a point, up to five times, and dragging moves around it, with the axes held along the edges. A plain scroll is left to the page. The bubbles float, each on its own slow current, bumping softly off a neighbour and held within a few pixels of its level. The one being pointed at holds still, and nothing moves for a reader who asks for reduced motion, while the graph is off screen or while the tab is hidden. The two series colours are checked for colour-blind separation and contrast against the graph's ground in both themes. A model held to a vetted program, like Claude Mythos, is greyed out in the table and dashed on the graph.
+
+It is refreshed by hand with the `refresh-leaderboard` skill in `.claude/skills/`, which gathers the latest published scores, rewrites `matrix.json` and carries the same scores into the app.
+
 ## Develop
 
 Needs [Node 22](https://nodejs.org), [pnpm](https://pnpm.io) and [just](https://github.com/casey/just).

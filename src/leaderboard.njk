@@ -1,0 +1,200 @@
+---
+layout: base.njk
+title: Model leaderboard. Atlantis
+description: A power rating out of 10 for every model Atlantis can run, from published benchmarks. 10 is the strongest model available today, and every other model is rated against it.
+ground: text
+---
+{%- from "icons.njk" import flame -%}
+{%- macro cell(value, unit = "") -%}
+{%- if value == none -%}<span class="score-none" aria-label="Not published">·</span>{%- else -%}{{ value }}{{ unit }}{%- endif -%}
+{%- endmacro %}
+
+<section class="page section section-first" aria-labelledby="leaderboard-title">
+  <header class="section-head">
+    <h1 class="title leaderboard-title" id="leaderboard-title">Model leaderboard</h1>
+    {#- The first clause is the point. The rest opens from the ellipsis, and shows whole when the
+        script that folds it away has not run. #}
+    <p class="lead leaderboard-lead">Every model gets a power rating out of 10, from published benchmarks<span id="lead-more" tabindex="-1" data-lead-more>. 10 is the strongest model available today, open or closed. Every other model is rated by its share of that model's score, so an open model that scores like the best rates like it.</span><button type="button" class="lead-toggle" aria-expanded="false" aria-controls="lead-more" aria-label="Read the rest" title="Read the rest" data-lead-toggle hidden>&hellip;</button></p>
+    <p class="caption leaderboard-stamp">Updated {{ leaderboard.updatedText }}. {{ leaderboard.ranked }} of {{ leaderboard.models.length }} models ranked, on the <a class="link" href="{{ leaderboard.indexUrl }}" rel="noopener" target="_blank">{{ leaderboard.index }}</a> {{ leaderboard.indexVersion }}.</p>
+  </header>
+
+  {#- The rating as a scale from 1 to 10: a track coloured band by band the way the flames burn,
+      the steps under it, and under each band what a rating there means. #}
+  <figure class="power-scale">
+    <div class="scale-track" aria-hidden="true">
+      {%- for band in leaderboard.bands %}
+      <span class="scale-segment" data-flame="{{ band.flame }}" style="grid-column: span {{ band.span }}"></span>
+      {%- endfor %}
+    </div>
+    <ol class="scale-steps" aria-hidden="true">
+      {%- for step in range(1, 11) %}
+      <li>{{ step }}</li>
+      {%- endfor %}
+    </ol>
+    <ul class="scale-bands" aria-label="What each rating means">
+      {%- for band in leaderboard.bands %}
+      <li data-flame="{{ band.flame }}" style="grid-column: span {{ band.span }}; --from: {{ band.from - 1 }}; --to: {{ band.from - 1 + band.span }}">
+        <span class="scale-mark" aria-hidden="true"></span>
+        <span class="scale-range">{{ flame() }}<strong>{{ band.range }}</strong></span>
+        <span class="scale-says">{{ band.says }}</span>
+      </li>
+      {%- endfor %}
+    </ul>
+  </figure>
+
+  <div class="leaderboard-tools" data-leaderboard-tools hidden>
+    <label class="leaderboard-field">
+      <span class="sr-only">Find a model</span>
+      <input type="search" placeholder="Find a model" data-leaderboard-find autocomplete="off" />
+    </label>
+    {#- A list to tick any number of labs from. None ticked is every lab. #}
+    <div class="lab-picker" data-lab-picker>
+      <button type="button" class="lab-button" aria-expanded="false" aria-controls="lab-list" data-lab-button>
+        <span data-lab-summary>All labs</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="lab-chevron"><path d="m7 10 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <fieldset class="lab-list" id="lab-list" hidden>
+        <legend class="sr-only">Show models from these labs</legend>
+        {%- for lab in leaderboard.labs %}
+        <label class="lab-option">
+          <input type="checkbox" value="{{ lab.name }}" data-lab />
+          <span class="lab-name">{{ lab.name }}</span>
+          <span class="lab-count">{{ lab.count }}</span>
+        </label>
+        {%- endfor %}
+        <button type="button" class="lab-clear" data-lab-clear>Clear</button>
+      </fieldset>
+    </div>
+    <label class="leaderboard-check">
+      <input type="checkbox" data-leaderboard-open />
+      <span>Open weights only</span>
+    </label>
+    <p class="caption" data-leaderboard-count aria-live="polite"></p>
+    <div class="view-switch" role="group" aria-label="Show as">
+      <button type="button" data-view-button="table" aria-pressed="true">Table</button>
+      <button type="button" data-view-button="graph" aria-pressed="false">Graph</button>
+    </div>
+  </div>
+
+  <div class="glass leaderboard-wrap" data-view="table">
+    <table class="leaderboard">
+      <caption class="sr-only">Power rating and published benchmark scores per model</caption>
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">Power</th>
+          <th scope="col" title="Artificial Analysis Intelligence Index, the score the rating is worked out from">Index</th>
+          <th scope="col">Terminal-Bench</th>
+          <th scope="col">SWE-bench Pro</th>
+          <th scope="col" title="Humanity's Last Exam, without tools">HLE</th>
+          <th scope="col">GPQA</th>
+          <th scope="col" title="LMArena text Elo">Arena</th>
+          <th scope="col">Weights</th>
+          <th scope="col">Sources</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for model in leaderboard.models %}
+        <tr data-at="{{ loop.index0 }}" data-access="{{ model.access }}">
+          <th scope="row">
+            <span class="model-name">{{ model.name }}</span>
+            <span class="model-maker">{{ model.maker }}{% if model.released %} · {{ model.released }}{% endif %}</span>
+            {%- if model.access == "restricted" %}
+            <span class="model-access" title="{{ model.accessNote }}">Not public</span>
+            {%- endif %}
+          </th>
+          <td>
+            {%- if model.rating %}
+            <span class="power" data-flame="{{ model.flame }}" title="{{ model.rating }} of {{ leaderboard.max }}">{% for point in range(0, model.rating) %}{{ flame() }}{% endfor %}<span class="sr-only">{{ model.rating }} of {{ leaderboard.max }}</span></span>
+            {%- else %}
+            <span class="power power-none">Unranked</span>
+            {%- endif %}
+          </td>
+          <td class="score">
+            {{ cell(model.index) }}
+            {%- if model.estimate %}<span class="score-note">estimate</span>{% elif model.effort %}<span class="score-note">{{ model.effort }}</span>{% endif %}
+          </td>
+          <td class="score">
+            {{ cell(model.terminalBench.score) }}
+            {%- if model.terminalBench.score != none and model.terminalBench.version %}<span class="score-note">{{ model.terminalBench.version }}{% if model.terminalBench.maker %}, lab's own{% endif %}</span>{% endif %}
+          </td>
+          <td class="score">{{ cell(model.swePro) }}</td>
+          <td class="score">{{ cell(model.hle) }}</td>
+          <td class="score">{{ cell(model.gpqa) }}</td>
+          <td class="score">{{ cell(model.arena) }}</td>
+          <td>{% if model.open === true %}Open{% elif model.open === false %}Closed{% else %}<span class="score-none">·</span>{% endif %}</td>
+          <td>
+            {%- if model.sources.length %}
+            <details class="sources">
+              <summary>{{ model.sources.length }}</summary>
+              <ul>
+                {%- for url in model.sources %}
+                <li><a class="link" href="{{ url }}" rel="noopener nofollow" target="_blank">{{ url | host }}</a></li>
+                {%- endfor %}
+              </ul>
+            </details>
+            {%- endif %}
+          </td>
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {#- The graph is drawn by js/leaderboard.js from the data below. Without the script the table is
+      the page, and the switch that would show the graph never appears. #}
+  <figure class="glass leaderboard-graph" data-view="graph" hidden>
+    <figcaption class="graph-head">
+      <div class="graph-heading">
+        <p class="graph-title">Index score by the number of sources behind it</p>
+        <div class="view-switch graph-zoom" role="group" aria-label="Zoom">
+          <button type="button" data-zoom="out" aria-label="Zoom out" title="Zoom out">&minus;</button>
+          <button type="button" data-zoom="in" aria-label="Zoom in" title="Zoom in">+</button>
+          <button type="button" data-zoom="fit" title="Show all of it">Fit</button>
+        </div>
+        <p class="caption graph-hint">Pinch, or scroll with Ctrl or &#8984;, to zoom. Drag to move.</p>
+      </div>
+      <ul class="graph-legend">
+        <li><span class="key" data-series="closed"></span>Closed weights</li>
+        <li><span class="key" data-series="open"></span>Open weights</li>
+        <li><span class="key" data-series="unknown"></span>Weights not stated</li>
+        <li><span class="key" data-series="restricted"></span>Not public</li>
+      </ul>
+    </figcaption>
+    <div class="graph-plot" data-graph>
+      <div class="graph-tip" data-graph-tip hidden></div>
+    </div>
+    <p class="caption graph-note" data-graph-note></p>
+  </figure>
+  <p class="sr-only" aria-live="polite" data-graph-said></p>
+  <template data-flame-template>{{ flame() }}</template>
+  <script type="application/json" data-leaderboard-data>{{ leaderboard.models | graphable | dump | safe }}</script>
+</section>
+
+<article class="page doc leaderboard-doc">
+  {#- The workings, folded away until asked for, so the page leads with the leaderboard itself. #}
+  <details class="leaderboard-notes">
+  <summary><h2>How the rating works</h2></summary>
+  <p>The rating rests on one number, the <strong>Artificial Analysis Intelligence Index</strong>. It is an independent composite of ten evaluations across agentic work, coding, general knowledge and scientific reasoning, run the same way for every lab, and it covers almost every model here. No other benchmark does.</p>
+  <p>A model's rating is 10 times its score divided by the best score any model has today, rounded, and never under 1. The best today is {% for model in leaderboard.best %}{{ model.name }}{% if not loop.last %} and {% endif %}{% endfor %}, at {{ leaderboard.top }}. A model with no independent score is unranked rather than guessed at.</p>
+  <p>Scores are taken at the best effort a model is generally available at, which is usually its highest reasoning setting. The same model at a lower setting scores less, so a plan that runs it on medium gets less than its rating says.</p>
+  <p>Atlantis shows the same rating beside every model it can run, as a row of flames, and you can set your own rating for any model in the app.</p>
+
+  <h2>The other columns</h2>
+  <p>They are as published, for context, and they do not move the rating. Many come from the lab behind the model, and a lab's own figure often runs several points above an independent run of the same test. Terminal-Bench changed version during the year, and a 2.1 score cannot be set beside a 4.0 one, so each cell says which. Arena figures come from aggregators.</p>
+
+  <h2>Where to be careful</h2>
+  <ul>
+    <li><strong>Claude Mythos</strong> has no independent score. Anthropic says it is the same model as Fable 5.1 with lighter safeguards, so its figure is Fable's score lifted by the gap between the two on Terminal-Bench 4.0, and it is marked as an estimate.</li>
+    <li><strong>Models that are not public are greyed out.</strong> {% for model in leaderboard.models %}{% if model.access == "restricted" %}{{ model.name }}: {{ model.accessNote }} {% endif %}{% endfor %}They keep their rating, since the scale runs to the best model there is, but nobody outside those programs can run them, and the graph draws them as dashed outlines.</li>
+    <li><strong>Claude Fable 5.1</strong> may score below what its model can do, since its safeguards step in on some tasks and an evaluation counts that as a failure.</li>
+    <li><strong>Neighbouring ratings are close to a tie.</strong> A point or two on the index can move a model across a line.</li>
+    <li>When the index is rescaled, every score and the top move together, and the ratings with them.</li>
+  </ul>
+
+  <h2>How it is kept</h2>
+  <p>The leaderboard is refreshed by hand when the benchmarks move, and the app's own ratings are updated from the same figures.</p>
+  </details>
+</article>
+
+<script src="/js/leaderboard.js" type="module"></script>

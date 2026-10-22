@@ -34,6 +34,25 @@
   --working: rgba(79, 174, 255, 0.12);
   --caution: rgba(242, 210, 75, 0.12);
 
+  /* The app's power flames, a body and a brighter core per band: yellow to 3, green to 6,
+     red to 8, blue at 9, and black and white at 10, a white flame with a black heart here. */
+  --flame-yellow: #ffd23f;
+  --flame-yellow-core: #fff4b8;
+  --flame-green: #43e584;
+  --flame-green-core: #cbffe0;
+  --flame-red: #ff4f4f;
+  --flame-red-core: #ffd0b8;
+  --flame-blue: #4f9dff;
+  --flame-blue-core: #d3e6ff;
+  --flame-mono: #f6f6f6;
+  --flame-mono-core: #0b0b0b;
+
+  /* The leaderboard graph's two series, checked for colour-blind separation and contrast on
+     the graph's ground, which is `--graph-ground`, the glass over the sea, as one colour. */
+  --graph-ground: #10213d;
+  --series-closed: #3987e5;
+  --series-open: #199e70;
+
   --glow-a: rgba(61, 245, 168, 0.16);
   --glow-b: rgba(79, 174, 255, 0.18);
   --glow-c: rgba(136, 116, 255, 0.16);
@@ -79,6 +98,22 @@
   --active: rgba(12, 97, 66, 0.1);
   --working: rgba(26, 91, 135, 0.09);
   --caution: rgba(138, 101, 22, 0.12);
+
+  /* Deepened to read in daylight, and the 10 turned over: a black flame with a white heart. */
+  --flame-yellow: #d9a400;
+  --flame-yellow-core: #fff0a0;
+  --flame-green: #1d9a50;
+  --flame-green-core: #c4f2d6;
+  --flame-red: #d42a2a;
+  --flame-red-core: #ffd4c4;
+  --flame-blue: #1f6ed6;
+  --flame-blue-core: #d0e2ff;
+  --flame-mono: #141414;
+  --flame-mono-core: #fafafa;
+
+  --graph-ground: #e3f4fb;
+  --series-closed: #2a78d6;
+  --series-open: #14966a;
 
   --glow-a: rgba(72, 214, 198, 0.34);
   --glow-b: rgba(255, 255, 255, 0.6);
@@ -1322,6 +1357,929 @@ main > .section:last-child {
   color: var(--lamp);
 }
 
+/* leaderboard: a power rating per model as the app draws it, and the scores behind it */
+
+[data-flame="yellow"] {
+  --flame: var(--flame-yellow);
+  --flame-core: var(--flame-yellow-core);
+}
+
+[data-flame="green"] {
+  --flame: var(--flame-green);
+  --flame-core: var(--flame-green-core);
+}
+
+[data-flame="red"] {
+  --flame: var(--flame-red);
+  --flame-core: var(--flame-red-core);
+}
+
+[data-flame="blue"] {
+  --flame: var(--flame-blue);
+  --flame-core: var(--flame-blue-core);
+}
+
+[data-flame="mono"] {
+  --flame: var(--flame-mono);
+  --flame-core: var(--flame-mono-core);
+}
+
+.flame {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  color: var(--flame);
+}
+
+/* The lead runs the width of the section, as the notes under the graph do, rather than the
+   measure a text page keeps. */
+.leaderboard-lead {
+  max-width: none;
+}
+
+/* The ellipsis that opens the rest of the lead: the lead's own words, lit as a thing to press. */
+.lead-toggle {
+  padding: 0 0.25em 0 0.05em;
+  border-radius: 8px;
+  font: inherit;
+  line-height: 1;
+  color: var(--secondary);
+  transition:
+    background var(--ease),
+    color var(--ease);
+}
+
+.lead-toggle:hover {
+  background: var(--hover);
+  color: var(--lamp);
+}
+
+[data-lead-more]:focus {
+  outline: none;
+}
+
+.leaderboard-stamp {
+  margin-top: var(--frame);
+}
+
+/* The rating as a scale: ten steps on one grid, the track coloured in the flames' bands with a
+   gap of the ground between bands, the step numbers under it, and each band's meaning under
+   its stretch of track. */
+.power-scale {
+  display: grid;
+  gap: var(--perf);
+  margin: calc(-1 * var(--gate-sp)) 0 var(--reel);
+}
+
+.scale-track,
+.scale-steps,
+.scale-bands {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scale-track {
+  gap: 3px;
+}
+
+.scale-segment {
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--flame) 55%, transparent),
+    var(--flame)
+  );
+}
+
+.scale-segment:first-child {
+  border-radius: 999px 2px 2px 999px;
+}
+
+.scale-segment:last-child {
+  border-radius: 2px 999px 999px 2px;
+}
+
+.scale-steps li {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--silver);
+}
+
+.scale-bands {
+  column-gap: 3px;
+  margin-top: 2px;
+}
+
+.scale-bands li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--perf);
+  padding: 0 var(--perf);
+  border-left: 1px solid color-mix(in srgb, var(--flame) 50%, transparent);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--silver);
+}
+
+.scale-bands .flame {
+  margin-top: 1px;
+}
+
+/* On a wide page the steps say the range, so only the flame leads each meaning. */
+.scale-range {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.scale-range strong {
+  display: none;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--lamp);
+}
+
+.scale-mark {
+  display: none;
+}
+
+/* Find, maker and open weights, shown only once the script that runs them has. */
+.leaderboard-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--frame);
+  margin-bottom: var(--frame);
+}
+
+.leaderboard-tools[hidden] {
+  display: none;
+}
+
+.leaderboard-field input,
+.leaderboard-field select {
+  height: 40px;
+  padding: 0 var(--gate-sp);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  font: inherit;
+  font-size: 14px;
+  color: var(--lamp);
+}
+
+.leaderboard-field input {
+  width: min(280px, 100%);
+}
+
+.leaderboard-field input::placeholder {
+  color: var(--silver);
+}
+
+/* Labs: a button that says what is ticked, and under it a list to tick any number from. */
+.lab-picker {
+  position: relative;
+}
+
+.lab-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--perf);
+  height: 40px;
+  padding: 0 14px 0 var(--gate-sp);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  font-size: 14px;
+  color: var(--lamp);
+  white-space: nowrap;
+}
+
+.lab-button[data-picked="true"] {
+  border-color: var(--edge-strong);
+  background: var(--glass-strong);
+}
+
+.lab-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--silver);
+  transition: transform var(--ease);
+}
+
+.lab-button[aria-expanded="true"] .lab-chevron {
+  transform: rotate(180deg);
+}
+
+.lab-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  display: grid;
+  gap: 2px;
+  min-width: 240px;
+  max-height: min(420px, 60vh);
+  margin: 0;
+  padding: var(--perf);
+  overflow-y: auto;
+  border: 1px solid var(--edge-strong);
+  border-radius: 14px;
+  background: var(--glass-strong);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  box-shadow: var(--shadow);
+}
+
+.lab-list[hidden] {
+  display: none;
+}
+
+.lab-option {
+  display: flex;
+  align-items: center;
+  gap: var(--frame);
+  padding: 6px 10px;
+  border-radius: 9px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.lab-option:hover {
+  background: var(--hover);
+}
+
+.lab-option input {
+  accent-color: var(--primary);
+}
+
+.lab-name {
+  flex: 1;
+}
+
+.lab-count {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--silver);
+}
+
+.lab-clear {
+  justify-self: end;
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--secondary);
+}
+
+.lab-clear:hover {
+  background: var(--hover);
+}
+
+.leaderboard-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--perf);
+  font-size: 14px;
+  color: var(--silver);
+  cursor: pointer;
+}
+
+.leaderboard-check input {
+  accent-color: var(--primary);
+}
+
+/* The table scrolls inside its glass, never the page. */
+.leaderboard-wrap {
+  overflow-x: auto;
+  padding: var(--perf) 0;
+}
+
+.leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard th,
+.leaderboard td {
+  padding: var(--frame) 14px;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.leaderboard thead th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+
+.leaderboard tbody tr {
+  border-top: 1px solid var(--edge);
+}
+
+.leaderboard tbody tr:hover {
+  background: var(--hover);
+}
+
+.leaderboard tbody th {
+  min-width: 200px;
+  max-width: 280px;
+  font-weight: 500;
+  white-space: normal;
+}
+
+.model-name,
+.model-maker,
+.score-note {
+  display: block;
+}
+
+.model-maker,
+.score-note {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--silver);
+}
+
+/* One flame per point. The flame fills the middle half of its box, so the boxes overlap by
+   about that much and the flames stand shoulder to shoulder. */
+.power {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.power .flame + .flame {
+  margin-left: -0.5em;
+}
+
+.power-none {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--silver);
+}
+
+.score-none {
+  color: var(--silver);
+}
+
+.sources summary {
+  color: var(--secondary);
+  cursor: pointer;
+}
+
+.sources ul {
+  display: grid;
+  gap: 2px;
+  margin: var(--perf) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+/* A model nobody outside a vetted program can run keeps its row and rating, greyed out, with
+   the reason on the tag's tooltip. */
+.leaderboard tbody tr[data-access="restricted"] > * {
+  opacity: 0.5;
+}
+
+.leaderboard tbody tr[data-access="restricted"] .flame {
+  filter: grayscale(1);
+}
+
+.model-access {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 0 8px;
+  border: 1px solid var(--edge-strong);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+
+/* Table or graph, a two-way switch at the far end of the tools, apart from the filters. */
+.view-switch {
+  display: inline-flex;
+  margin-left: auto;
+  padding: 3px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+
+.view-switch button {
+  height: 32px;
+  padding: 0 var(--gate-sp);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--silver);
+  transition:
+    background var(--ease),
+    color var(--ease);
+}
+
+.view-switch button:hover {
+  color: var(--lamp);
+}
+
+.view-switch button[aria-pressed="true"] {
+  background: var(--glass-strong);
+  box-shadow: inset 0 1px 0 var(--sheen);
+  color: var(--lamp);
+}
+
+/* the graph: every ranked model as a bubble at the height of its score */
+
+[data-series="closed"] {
+  --series: var(--series-closed);
+}
+
+[data-series="open"] {
+  --series: var(--series-open);
+}
+
+[data-series="unknown"],
+[data-series="restricted"] {
+  --series: var(--silver);
+}
+
+.leaderboard-graph {
+  margin: 0;
+  padding: var(--gate-sp);
+}
+
+.graph-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--frame) var(--reel);
+  margin-bottom: var(--frame);
+}
+
+.graph-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--perf) var(--gate-sp);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--silver);
+}
+
+.graph-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--perf);
+}
+
+/* The key is a small bubble, drawn the way the graph's bubbles are. */
+.key {
+  width: 12px;
+  height: 12px;
+  border: 1px solid color-mix(in srgb, var(--series) 75%, transparent);
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 38% 32%,
+    transparent 45%,
+    color-mix(in srgb, var(--series) 45%, transparent)
+  );
+}
+
+.key[data-series="restricted"] {
+  border-style: dashed;
+  background: none;
+}
+
+/* One view: the graph takes the card's width and a set height, and never scrolls inside. */
+.graph-plot {
+  position: relative;
+}
+
+.graph-svg {
+  display: block;
+  overflow: visible;
+  font-family: var(--font);
+}
+
+.graph-svg:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.graph-svg:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.graph-grid line {
+  stroke: var(--edge);
+  stroke-width: 1;
+}
+
+.graph-grid .graph-lane-rule {
+  stroke: color-mix(in srgb, var(--edge) 55%, transparent);
+}
+
+.graph-axis-x,
+.graph-axis-y {
+  fill: var(--silver);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.graph-axis-x {
+  text-anchor: middle;
+}
+
+.graph-axis-y {
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+.graph-axis-name {
+  fill: var(--silver);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.graph-axis-foot {
+  text-anchor: middle;
+}
+
+/* Zoomed in, the graph is a thing to drag about. At its fit it leaves the page to scroll. */
+.graph-svg {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.graph-svg[data-zoomed="true"] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.graph-svg[data-zoomed="true"]:active {
+  cursor: grabbing;
+}
+
+/* Lines keep their hairline at any zoom. */
+.graph-grid line,
+.bubble-body {
+  vector-effect: non-scaling-stroke;
+}
+
+/* The axes sit over the world along the card's edges, each label haloed in the ground so a
+   bubble passing under it never hides it. */
+.graph-axes text {
+  paint-order: stroke;
+  stroke: var(--graph-ground);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.graph-axes .graph-axis-y {
+  text-anchor: start;
+}
+
+.graph-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--perf) var(--frame);
+}
+
+.graph-zoom {
+  margin-left: 0;
+}
+
+.graph-zoom button {
+  min-width: 36px;
+  padding: 0 var(--frame);
+}
+
+.graph-zoom button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.graph-hint {
+  font-size: 12px;
+}
+
+/* A bubble as it looks under water: a sphere whose skin is clear in the middle, its series colour
+   gathering toward the rim, from the gradient the script draws per series, and a fine edge. The
+   script floats it, a few pixels about its level. */
+.bubble {
+  cursor: default;
+}
+
+.bubble-stop {
+  stop-color: var(--series);
+  stop-opacity: var(--strength);
+}
+
+.bubble-body {
+  stroke: color-mix(in srgb, var(--series) 55%, transparent);
+  stroke-width: 1;
+  transition:
+    stroke var(--ease),
+    filter var(--ease);
+}
+
+.bubble-name {
+  fill: var(--lamp);
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.bubble[data-series="restricted"] .bubble-body {
+  stroke-dasharray: 3 3;
+}
+
+.bubble[data-series="restricted"] .bubble-name,
+.bubble[data-series="unknown"] .bubble-name {
+  fill: var(--silver);
+}
+
+.bubble:hover .bubble-body,
+.bubble[data-active="true"] .bubble-body {
+  stroke: var(--series);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--series) 55%, transparent));
+}
+
+.bubble[data-faded="true"] {
+  opacity: 0.12;
+}
+
+/* The card beside a bubble. It takes the pointer, so it stays while the pointer moves onto it and
+   its flames can be pointed at for the figure. */
+.graph-tip {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 4px;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: min(280px, 100%);
+  max-width: min(340px, 100%);
+  padding: 16px 18px 14px;
+  border: 1px solid var(--edge-strong);
+  border-radius: 14px;
+  /* The glass over the graph's own ground, solid, so the bubbles under the card do not show
+     through its words. */
+  background: var(--glass-strong), var(--graph-ground);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  box-shadow: var(--shadow);
+  font-size: 14px;
+}
+
+.graph-tip[hidden] {
+  display: none;
+}
+
+/* Each line of the card: its thing on the left, what is said about it on the right. A long
+   model name wraps on the left and leaves the lab where it is, in the top corner. */
+.tip-head,
+.tip-facts {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--frame);
+}
+
+.tip-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--lamp);
+  text-decoration: none;
+}
+
+.tip-maker {
+  flex: none;
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--silver);
+  text-decoration: none;
+}
+
+a.tip-name:hover,
+a.tip-maker:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.tip-maker:hover {
+  color: var(--lamp);
+}
+
+.tip-out {
+  font-size: 0.85em;
+  color: var(--silver);
+}
+
+/* Should the pill and the date not fit side by side, the date takes a line of its own rather
+   than run past the card. */
+.tip-facts {
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--frame);
+}
+
+/* A dotted rule under the relative date says there is an exact one on hover. */
+.tip-when {
+  font-size: 13px;
+  color: var(--silver);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.tip-pill {
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--series) 60%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--series) 14%, transparent);
+  font-size: 11.5px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lamp);
+  white-space: nowrap;
+}
+
+.tip-pill[data-series="restricted"] {
+  border-style: dashed;
+  background: none;
+  color: var(--silver);
+}
+
+/* The power on the left, the index on the right, under a hairline, like a card's foot. */
+.tip-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--frame);
+  margin-top: var(--frame);
+  padding-top: var(--frame);
+  border-top: 1px solid var(--edge);
+}
+
+/* The index alone, in the terminal green the app marks what is live with. */
+.tip-index {
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.tip-estimate {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--silver);
+}
+
+.tip-power {
+  position: relative;
+  font-size: 16px;
+  cursor: default;
+}
+
+.tip-power::after {
+  content: attr(data-of);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--lamp);
+  color: var(--void);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 2px);
+  transition:
+    opacity var(--ease),
+    transform var(--ease);
+  pointer-events: none;
+}
+
+.tip-power:hover::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.graph-note {
+  margin-top: var(--frame);
+}
+
+/* The notes under the leaderboard run the width of the section above them rather than the
+   reading measure a text page keeps, so the page reads as one column. */
+.leaderboard-doc {
+  max-width: none;
+  padding-top: 0;
+}
+
+.leaderboard-doc p,
+.leaderboard-doc ul {
+  max-width: none;
+}
+
+/* The workings fold away under their first heading, drawn the way the home page's questions
+   are: a hairline above and below and a plus that turns to a cross when open. */
+.leaderboard-notes {
+  margin-top: var(--act);
+  border-top: 1px solid var(--edge);
+  border-bottom: 1px solid var(--edge);
+}
+
+.leaderboard-notes summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gate-sp);
+  padding: var(--gate-sp) 0;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--ease);
+}
+
+.leaderboard-notes summary::-webkit-details-marker {
+  display: none;
+}
+
+.leaderboard-notes summary h2 {
+  margin: 0;
+}
+
+.leaderboard-notes summary:hover {
+  color: var(--primary);
+}
+
+.leaderboard-notes summary::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  color: var(--silver);
+  transition:
+    transform var(--ease),
+    color var(--ease),
+    border-color var(--ease);
+}
+
+.leaderboard-notes[open] summary::after {
+  transform: rotate(45deg);
+  border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+  color: var(--primary);
+}
+
+.leaderboard-notes[open] {
+  padding-bottom: var(--reel);
+}
+
 /* 404 */
 
 .lost {
@@ -1495,6 +2453,46 @@ main > .section:last-child {
 }
 
 @media (max-width: 640px) {
+  /* Ten steps are too narrow to read on a phone, so the scale stands as a list, each band a
+     stretch of track as wide as its share of the ten, its range and its meaning. */
+  .scale-track,
+  .scale-steps {
+    display: none;
+  }
+
+  .scale-bands {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--perf);
+  }
+
+  .scale-bands li {
+    grid-column: auto !important;
+    display: grid;
+    grid-template-columns: 64px auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--frame);
+    padding: 0;
+    border-left: none;
+  }
+
+  /* A small whole scale, lit only where the band sits on it. */
+  .scale-mark {
+    display: block;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      var(--edge) calc(var(--from) * 10%),
+      var(--flame) calc(var(--from) * 10%),
+      var(--flame) calc(var(--to) * 10%),
+      var(--edge) calc(var(--to) * 10%)
+    );
+  }
+
+  .scale-range strong {
+    display: inline;
+  }
+
   :root {
     --intermission: 80px;
     --act: 48px;
