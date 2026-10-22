@@ -1,4 +1,4 @@
-// The leaderboard's two views. The filters above scope both: the table hides a row that does not
+// The leaderboard's two views, the graph first and the table on a tab beside it. The filters above scope both: the table hides a row that does not
 // match, and the graph fades its bubble. The graph sets every ranked model as a bubble with its
 // name inside, at the height of its index score, in a column for how many sources back it.
 // Bubbles that would overlap push apart, mostly sideways, so each one rests within a fraction of a
@@ -7,7 +7,6 @@
 // shows is also in the table, which is the page without this script.
 
 const SVG = "http://www.w3.org/2000/svg";
-const VIEW_KEY = "leaderboard-view";
 
 const tools = document.querySelector("[data-leaderboard-tools]");
 const find = tools.querySelector("[data-leaderboard-find]");
@@ -18,7 +17,7 @@ const labBoxes = [...tools.querySelectorAll("[data-lab]")];
 const labClear = tools.querySelector("[data-lab-clear]");
 const openOnly = tools.querySelector("[data-leaderboard-open]");
 const count = tools.querySelector("[data-leaderboard-count]");
-const switches = [...tools.querySelectorAll("[data-view-button]")];
+const tabs = [...tools.querySelectorAll("[data-view-button]")];
 const views = [...document.querySelectorAll("[data-view]")];
 const rows = [...document.querySelectorAll(".leaderboard tbody tr")];
 
@@ -33,7 +32,7 @@ const models = JSON.parse(document.querySelector("[data-leaderboard-data]").text
 );
 const ranked = models.filter((model) => model.index !== null);
 
-let view = "table";
+let view = "graph";
 let focused = -1;
 let drawn = null;
 let hiding = 0;
@@ -99,35 +98,42 @@ labList.addEventListener("keydown", (event) => {
   labButton.focus();
 });
 
-/* the switches */
-
-function remember(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch {}
-}
-
-function recall(key) {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
+/* the tabs */
 
 function show(next) {
   view = next;
-  for (const button of switches) {
-    button.setAttribute("aria-pressed", String(button.dataset.viewButton === next));
+  for (const tab of tabs) {
+    const on = tab.dataset.viewButton === next;
+    tab.setAttribute("aria-selected", String(on));
+    tab.tabIndex = on ? 0 : -1;
   }
   for (const panel of views) panel.hidden = panel.dataset.view !== next;
-  remember(VIEW_KEY, next);
   if (next === "graph") draw();
 }
 
-for (const button of switches) {
-  button.addEventListener("click", () => show(button.dataset.viewButton));
+// A panel is only a tab panel once its tabs show, so the roles are set here and not in the page.
+for (const panel of views) panel.setAttribute("role", "tabpanel");
+
+for (const tab of tabs) {
+  tab.addEventListener("click", () => show(tab.dataset.viewButton));
 }
+
+// Left and right step between the tabs and around the ends, Home and End go to the first and the
+// last, and the tab reached opens.
+tabs[0].parentElement.addEventListener("keydown", (event) => {
+  const at = tabs.indexOf(document.activeElement);
+  const to = {
+    ArrowLeft: at - 1,
+    ArrowRight: at + 1,
+    Home: 0,
+    End: tabs.length - 1,
+  }[event.key];
+  if (at < 0 || to === undefined) return;
+  event.preventDefault();
+  const tab = tabs[(to + tabs.length) % tabs.length];
+  tab.focus();
+  show(tab.dataset.viewButton);
+});
 
 /* the graph */
 
@@ -912,5 +918,5 @@ if (leadMore && leadToggle) {
 }
 
 tools.hidden = false;
-show(recall(VIEW_KEY) === "graph" ? "graph" : "table");
+show("graph");
 apply();

@@ -70,13 +70,14 @@ ground: text
       <span>Open weights only</span>
     </label>
     <p class="caption" data-leaderboard-count aria-live="polite"></p>
-    <div class="view-switch" role="group" aria-label="Show as">
-      <button type="button" data-view-button="table" aria-pressed="true">Table</button>
-      <button type="button" data-view-button="graph" aria-pressed="false">Graph</button>
+    {#- Tabs for the two views, the graph first and open. The arrow keys move between them. #}
+    <div class="view-switch" role="tablist" aria-label="Show as">
+      <button type="button" role="tab" id="view-tab-graph" aria-controls="view-graph" aria-selected="true" data-view-button="graph">Graph</button>
+      <button type="button" role="tab" id="view-tab-table" aria-controls="view-table" aria-selected="false" tabindex="-1" data-view-button="table">Table</button>
     </div>
   </div>
 
-  <div class="glass leaderboard-wrap" data-view="table">
+  <div class="glass leaderboard-wrap" id="view-table" aria-labelledby="view-tab-table" data-view="table">
     <table class="leaderboard">
       <caption class="sr-only">Power rating and published benchmark scores per model</caption>
       <thead>
@@ -142,8 +143,8 @@ ground: text
   </div>
 
   {#- The graph is drawn by js/leaderboard.js from the data below. Without the script the table is
-      the page, and the switch that would show the graph never appears. #}
-  <figure class="glass leaderboard-graph" data-view="graph" hidden>
+      the page, and the tabs that would show the graph never appear. #}
+  <figure class="glass leaderboard-graph" id="view-graph" aria-labelledby="view-tab-graph" data-view="graph" hidden>
     <figcaption class="graph-head">
       <div class="graph-heading">
         <p class="graph-title">Index score by the number of sources behind it</p>
@@ -166,6 +167,12 @@ ground: text
     </div>
     <p class="caption graph-note" data-graph-note></p>
   </figure>
+  {#- The page opens on the graph. The swap happens here, before the first paint, so the table never
+      shows for a moment and then gives way. Without scripts it never runs, and the table stays. #}
+  <script>
+    document.getElementById("view-table").hidden = true;
+    document.getElementById("view-graph").hidden = false;
+  </script>
   <p class="sr-only" aria-live="polite" data-graph-said></p>
   <template data-flame-template>{{ flame() }}</template>
   <script type="application/json" data-leaderboard-data>{{ leaderboard.models | graphable | dump | safe }}</script>
