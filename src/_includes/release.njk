@@ -6,7 +6,7 @@
     {%- if release.codename %}<span class="release-codename">{{ release.codename }}</span>{% endif %}
     <span class="release-chips">
       {%- if latest and release.version == latest.version %}<span class="chip" data-tone="ready">Latest</span>{% endif -%}
-      {%- if release.stable %}<span class="chip" data-tone="ready">Stable</span>{% else %}<span class="chip" data-tone="working">Pre-release</span>{% endif -%}
+      {%- if (release.version.split(".")[0] | int) < 1 %}<span class="chip" data-tone="working">Alpha</span>{% elif release.stable %}<span class="chip" data-tone="ready">Stable</span>{% else %}<span class="chip" data-tone="working">Pre-release</span>{% endif -%}
       {%- if release.archived %}<span class="chip">Archived</span>{% endif -%}
     </span>
     <time class="release-date" datetime="{{ release.date }}">{{ release.date }}</time>

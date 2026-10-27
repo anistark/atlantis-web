@@ -6,8 +6,8 @@ layout: base.njk
 <section class="intro page" aria-labelledby="hero-title">
   <a class="badge" href="#download">
     <span class="badge-dot" aria-hidden="true"></span>
-    {%- if launched %}
-    <span>v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for {{ platforms.names }}</span>
+    {%- if latest %}
+    <span>{% if alpha %}Alpha {% endif %}v{{ latest.version }}{% if latest.codename %} {{ latest.codename }}{% endif %} is out for {{ platforms.names }}</span>
     {%- else %}
     <span>Coming soon for macOS</span>
     {%- endif %}
@@ -16,7 +16,7 @@ layout: base.njk
   <div class="intro-foot">
     <p class="lead">Each one lives in a folder of its own, works with tools that stay inside it, and joins the others when you ask the room.</p>
     <div class="intro-actions">
-      {%- if launched %}
+      {%- if latest %}
       {%- if platforms.only %}
       <a class="button" href="{{ latest.assets[0].url }}" data-download="{{ latest.version }}">
         {{ icon("download") }}
@@ -29,7 +29,7 @@ layout: base.njk
       </a>
       {%- endif %}
       {%- elif site.kit %}
-      <a class="button" href="#waitlist">Join the waitlist</a>
+      <a class="button" href="#waitlist">Get notified</a>
       {%- else %}
       <a class="button" href="#download" aria-disabled="true">
         {{ icon("download") }}
@@ -136,17 +136,22 @@ layout: base.njk
 <section class="section page" id="download" aria-labelledby="download-title">
   <header class="section-head">
     <p class="eyebrow">Download</p>
-    <h2 class="title" id="download-title">The latest build</h2>
+    <h2 class="title" id="download-title">{% if alpha %}The alpha build{% else %}The latest build{% endif %}</h2>
+    {%- if alpha %}
+    <p class="lead">Atlantis is in alpha. It works, but it is early: you install it and set it up yourself, with a model key of your own, and things change from one release to the next.</p>
+    {%- endif %}
   </header>
-  {%- if launched %}
+  {%- if latest %}
     {%- set release = latest %}
     {%- set full = false %}
     {% include "release.njk" %}
+    <p class="caption" style="margin-top: var(--gate-sp)">How to set it up, older builds and every changelog are on the <a class="link" href="/download/">download page</a>.</p>
+    {% include "notify.njk" %}
   {%- else %}
     <div class="glass empty">
       <img src="/assets/app-icon.png" alt="" width="72" height="72" />
       {%- if site.kit %}
-      <p class="lead">The first build is on its way. Join the waitlist for early access.</p>
+      <p class="lead">The first build is on its way. Get notified when it lands.</p>
       {% include "waitlist.njk" %}
       {%- else %}
       <p class="lead">The first build is on its way. It will be here the moment it ships.</p>

@@ -1,0 +1,7 @@
+{#- Under an alpha build, the list to hear when Atlantis goes live. Shown once a build is out. -#}
+{%- if alpha and site.kit %}
+<div class="glass empty notify">
+  <p class="lead">Want the finished thing? Get notified when Atlantis goes live.</p>
+  {% include "waitlist.njk" %}
+</div>
+{%- endif %}

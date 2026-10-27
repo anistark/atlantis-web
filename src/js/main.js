@@ -159,7 +159,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// The early access waitlist. The form posts to Kit on its own, and Kit shows its own page. This
+// The list to hear when Atlantis goes live. The form posts to Kit on its own, and Kit shows its own page. This
 // sends it the way Kit's embed script does, asking for JSON, so the answer shows in place.
 for (const form of document.querySelectorAll("[data-waitlist]")) {
   const button = form.querySelector("button");
@@ -172,7 +172,7 @@ for (const form of document.querySelectorAll("[data-waitlist]")) {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     button.disabled = true;
-    say("Joining...");
+    say("Signing up...");
     // The fields and header Kit's own script adds to every sign up, so this one looks the same.
     const body = new FormData(form);
     body.append("referrer", document.referrer);

@@ -11,6 +11,9 @@ ground: download
     <p class="eyebrow">Download</p>
     <h1 class="title" id="download-title">Atlantis for {{ platforms.names }}</h1>
     <p class="lead">{% if platforms.only %}One build for Apple Silicon and Intel.{% else %}One build for Macs, Apple Silicon and Intel alike, and an x64 build for {{ platforms.others }}.{% endif %} The newest few releases stay hosted, and the changelog of every release stays on this page.</p>
+    {%- if alpha %}
+    <p class="lead">Atlantis is in alpha. It works, but it is early: you install it and set it up yourself, with a model key of your own, and things change from one release to the next.</p>
+    {%- endif %}
   </header>
 
   {%- if releases.length %}
@@ -18,11 +21,12 @@ ground: download
       {%- set full = true %}
       {% include "release.njk" %}
     {%- endfor %}
+    {% include "notify.njk" %}
   {%- else %}
     <div class="glass empty">
       <img src="/assets/app-icon.png" alt="" width="72" height="72" />
       {%- if site.kit %}
-      <p class="lead">The first build is on its way. Join the waitlist for early access.</p>
+      <p class="lead">The first build is on its way. Get notified when it lands.</p>
       {% include "waitlist.njk" %}
       {%- else %}
       <p class="lead">The first build is on its way. It will be here the moment it ships.</p>

@@ -1,3 +1,4 @@
+import alpha from "./alpha.js";
 import platforms from "./platforms.js";
 
 const others = [
@@ -18,6 +19,15 @@ export default [
     question: "What does Atlantis need to run?",
     answer: `${machines}, and a model to talk to. Atlantis speaks to hosted models, so it needs an Ollama Cloud key or an endpoint you add by hand.`,
   },
+  ...(alpha
+    ? [
+        {
+          question: "Is it ready to use?",
+          answer:
+            "It is an alpha. It works, but it is early: you install it and set it up yourself, add a model key of your own, and things change from one release to the next. Atlantis tells you as it opens when a newer build is out. To hear when it goes live, use Get notified under the download.",
+        },
+      ]
+    : []),
   {
     question: "What is an agent here?",
     answer:

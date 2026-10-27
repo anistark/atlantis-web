@@ -63,7 +63,7 @@
         "description": {{ site.description | dump | safe }},
         "applicationCategory": "ProductivityApplication",
         "operatingSystem": "{{ platforms.list | join(", ") }}",
-        {%- if launched %}
+        {%- if latest %}
         "softwareVersion": "{{ latest.version }}",
         "downloadUrl": "{{ latest.assets[0].url }}",
         {%- endif %}

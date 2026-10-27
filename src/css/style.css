@@ -514,6 +514,26 @@ button {
   color: var(--lamp);
 }
 
+.nav-links .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid color-mix(in srgb, var(--primary) 45%, transparent);
+  border-radius: 999px;
+  background: var(--active);
+  color: var(--lamp);
+  transition:
+    border-color var(--ease),
+    box-shadow var(--ease);
+}
+
+.nav-links .nav-cta:hover,
+.nav-links .nav-cta[aria-current="page"] {
+  border-color: var(--primary);
+  box-shadow: 0 0 20px -6px var(--primary);
+}
+
 .icon-button {
   display: grid;
   place-items: center;
@@ -1152,7 +1172,7 @@ main > .section:last-child {
   color: var(--lamp);
 }
 
-/* the early access waitlist, one field and its button in a single pill */
+/* the list to hear when Atlantis goes live, one field and its button in a single pill */
 
 .waitlist {
   display: grid;
@@ -1214,6 +1234,11 @@ main > .section:last-child {
 
 .waitlist-status[data-tone="caution"] {
   color: var(--warn);
+}
+
+/* the same list under an alpha build, a panel of its own below the release */
+.notify {
+  margin-top: var(--gate-sp);
 }
 
 /* requirements and install, two glass panels side by side */
@@ -2504,6 +2529,10 @@ a.tip-maker:hover {
   }
 
   .brand-word {
+    display: none;
+  }
+
+  .nav-links .nav-optional {
     display: none;
   }
 
