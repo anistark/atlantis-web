@@ -17,7 +17,7 @@ const updating = [
 export default [
   {
     question: "What does Atlantis need to run?",
-    answer: `${machines}, and a model to talk to. Atlantis speaks to hosted models, so it needs an Ollama Cloud key or an endpoint you add by hand.`,
+    answer: `${machines}, and a model to talk to. That can be a key for Anthropic, OpenAI, OpenRouter, OpenCode Go or Ollama Cloud, a ChatGPT plan to sign in with, Ollama on your own machine, or any endpoint that speaks OpenAI's API.`,
   },
   ...(alpha
     ? [

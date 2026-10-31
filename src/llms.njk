@@ -18,7 +18,7 @@ Atlantis is a {% if platforms.only %}macOS desktop app{% else %}desktop app for 
 - Download for {{ asset.os }}{% if asset.format != "DMG" %}, {{ asset.format }}{% endif %}: {{ asset.url }}
 {%- endfor %}
 {%- endif %}
-- Models: hosted, through an Ollama Cloud key or an endpoint added by hand
+- Models: Anthropic, OpenAI, ChatGPT on your plan, OpenRouter, OpenCode Go, Ollama Cloud, Ollama on your own machine, or any endpoint that speaks OpenAI's API, added by hand
 - Price: free
 - Author: {{ site.author }}
 

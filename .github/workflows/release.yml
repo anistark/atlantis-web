@@ -1,0 +1,170 @@
+# Builds a tagged Atlantis for macOS, Linux and Windows, attaches every package to the draft
+# release `just release` made here, then publishes it, records it in src/_data/releases.json
+# and redeploys the site. `just release` in the app's repo starts it.
+#
+# The app's repo is private, so it is checked out with a read-only deploy key, and this repo
+# is public, so its runners cost nothing. If a build fails the release stays a draft.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The app's tag to build, like v0.9.0-beta.1
+        required: true
+      codename:
+        description: The release's codename
+        default: ""
+      summary:
+        description: One line about the release for the site
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: release-${{ inputs.tag }}
+
+env:
+  TAG: ${{ inputs.tag }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22.04 rather than the newest, so the Linux packages run on any glibc from 2.35 up.
+        os: [macos-latest, ubuntu-22.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: anistark/atlantis
+          ref: ${{ inputs.tag }}
+          ssh-key: ${{ secrets.ATLANTIS_DEPLOY_KEY }}
+          persist-credentials: false
+
+      # The AppImage copies GStreamer's plugins from here, with patchelf, so they are installed
+      # too. ALSA is for the microphone.
+      - name: Linux libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
+            librsvg2-dev libxdo-dev libssl-dev libasound2-dev patchelf \
+            gstreamer1.0-plugins-good
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: extractions/setup-just@v2
+      - uses: Swatinem/rust-cache@v2
+      # The DMG's window layout is written by a Python script the first time, through uv.
+      - uses: astral-sh/setup-uv@v6
+        if: runner.os == 'macOS'
+
+      - run: pnpm install --frozen-lockfile
+      - name: Check
+        if: runner.os == 'Linux'
+        run: just ci
+      - run: just package
+
+      - name: Attach to the release
+        shell: bash
+        run: |
+          shopt -s nullglob
+          FILES=(
+            target/universal-apple-darwin/release/bundle/dmg/*.dmg
+            target/release/bundle/deb/*.deb
+            target/release/bundle/rpm/*.rpm
+            target/release/bundle/appimage/*.AppImage
+            target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe
+          )
+          [ "${#FILES[@]}" -gt 0 ] || { echo "no packages were built" >&2; exit 1; }
+          gh release upload "$TAG" "${FILES[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      CODENAME: ${{ inputs.codename }}
+      SUMMARY: ${{ inputs.summary }}
+      # Every release past the newest three is deleted, but the newest stable one is kept.
+      KEEP: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      # The changelog and the script that parses it into the site's release list.
+      - uses: actions/checkout@v4
+        with:
+          repository: anistark/atlantis
+          ref: ${{ inputs.tag }}
+          ssh-key: ${{ secrets.ATLANTIS_DEPLOY_KEY }}
+          persist-credentials: false
+          path: app
+          sparse-checkout: |
+            CHANGELOG.md
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Publish the release
+        run: |
+          VERSION="${TAG#v}"
+          LATEST=()
+          [[ "$VERSION" == *-* ]] || LATEST=(--latest)
+          gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false "${LATEST[@]}"
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/assets"
+
+      - name: Remove old releases
+        run: |
+          COUNT=0
+          STABLE=""
+          HOSTED=()
+          while read -r OLD PRE; do
+            [ -n "$OLD" ] || continue
+            COUNT=$((COUNT + 1))
+            if [ "$COUNT" -le "$KEEP" ] || { [ "$PRE" = false ] && [ -z "$STABLE" ]; }; then
+              HOSTED+=("$OLD")
+            else
+              echo "Removing ${OLD}"
+              gh release delete "$OLD" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+            fi
+            [ "$PRE" = true ] || [ -n "$STABLE" ] || STABLE="$OLD"
+          done < <(gh release list --repo "$GITHUB_REPOSITORY" --exclude-drafts --limit 100 \
+            --json tagName,publishedAt,isPrerelease \
+            --jq 'sort_by(.publishedAt) | reverse | .[] | "\(.tagName) \(.isPrerelease)"')
+          echo "HOSTED=$(IFS=,; echo "${HOSTED[*]}")" >>"$GITHUB_ENV"
+
+      - name: Record it on the site
+        working-directory: app
+        run: |
+          REL_VERSION="${TAG#v}" \
+          REL_TAG="$TAG" \
+          REL_CODENAME="$CODENAME" \
+          REL_NOTES="$SUMMARY" \
+          REL_FILES="$(find "$RUNNER_TEMP/assets" -type f | sort)" \
+          REL_BASE="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}" \
+          REL_HOSTED="$HOSTED" \
+            node scripts/web-release.mjs record ../src/_data/releases.json
+
+      # A push with this workflow's token starts no other workflow, so the deploy is started
+      # by name.
+      - name: Commit and deploy
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/_data/releases.json
+          git commit --quiet -m "release: ${TAG}"
+          git pull --quiet --rebase origin main
+          git push --quiet origin HEAD:main
+          gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main

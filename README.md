@@ -12,15 +12,16 @@
 
 ## How releases get here
 
-The app lives in a private repo. Its `just publish` does the release end to end:
+The app lives in a private repo. Its `just release beta` (or `alpha`, `stable`, `patch`) sets the next version, commits and tags it there, creates a draft release here with the notes picked for it, and starts `.github/workflows/release.yml`, which:
 
-1. tags the app repo with `v<version>`
-2. creates a GitHub release here with the DMG attached, and the Linux and Windows packages when the app's Package workflow built that commit, a pre-release when the version has a suffix like `-beta.1`
-3. deletes all but the newest three releases here, with their tags
-4. writes the release into `src/_data/releases.json`, an asset per file with the DMG first, and marks the ones no longer hosted as archived
-5. commits `release: v<version>` and pushes `main`
+1. checks the tag out with the `ATLANTIS_DEPLOY_KEY` secret, a read-only deploy key on the app's repo, and builds it on macOS, Ubuntu 22.04 and Windows, running `just ci` on Ubuntu first
+2. attaches the universal DMG, the `.deb`, `.rpm` and AppImage, and the Windows installer to the draft
+3. once every build has attached its packages, publishes the release, a pre-release when the version has a suffix like `-beta.1`
+4. deletes all but the newest three releases here, with their tags, keeping the newest stable one past them
+5. writes the release into `src/_data/releases.json`, an asset per file with the DMG first, and marks the ones no longer hosted as archived
+6. commits `release: v<version>`, pushes `main` and starts `.github/workflows/deploy.yml`, since a push with the workflow's token starts no workflow on its own
 
-The push runs `.github/workflows/deploy.yml`, which builds the site and deploys it to GitHub Pages. `src/_data/releases.json` is written by that script, so it is not edited by hand.
+The deploy builds the site and deploys it to GitHub Pages. `src/_data/releases.json` is written by the workflow, so it is not edited by hand. If a build fails the release stays a draft and nothing public changes. Runs here are free because this repo is public, and their logs are public too.
 
 ## What reads the release list
 
