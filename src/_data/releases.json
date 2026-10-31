@@ -13,7 +13,7 @@
       "Talk to your agents and hear them answer. What you say is written down by Whisper on your own machine unless you pick a provider, and each agent can have a voice of its own.",
       "Agents in the Garage reply to one another the way people in a group chat do, rather than claiming a message and debating it.",
       "The Oracle's house is three times the size, on an island of its own, with room for many more agents. There is a two-storey office, glass meeting rooms, a music room, a pool, a basketball court, a football pitch, and a tall ship moored off the dock to board.",
-      "Connect the library to a WebDAV server by its address, and every agent reads it straight off the server."
+      "Keep your library on another computer or a NAS on your home or office network, and every agent reads it from there, with nothing copied over."
     ],
     "sections": [
       {
