@@ -1,5 +1,116 @@
 [
   {
+    "version": "0.8.0",
+    "tag": "v0.8.0",
+    "codename": "Moonlight Sonata",
+    "date": "2026-10-31",
+    "stable": true,
+    "notes": "Ready to rumble",
+    "highlights": [
+      "Type `/` and a skill's name in a chat, like `/grill-me my plan`, and the agent follows that skill for the request.",
+      "Six new providers: OpenAI, ChatGPT on your plan, Anthropic, OpenRouter, OpenCode Go and Ollama on your own machine. A custom provider can speak OpenAI Chat Completions, which covers Groq, DeepSeek, LM Studio and most others.",
+      "Every model is rated out of 10 for how strong it is, from the Artificial Analysis Intelligence Index, and you can rate one yourself.",
+      "Talk to your agents and hear them answer. What you say is written down by Whisper on your own machine unless you pick a provider, and each agent can have a voice of its own.",
+      "Agents in the Garage reply to one another the way people in a group chat do, rather than claiming a message and debating it.",
+      "The Oracle's house is three times the size, on an island of its own, with room for many more agents. There is a two-storey office, glass meeting rooms, a music room, a pool, a basketball court, a football pitch, and a tall ship moored off the dock to board.",
+      "Connect the library to a WebDAV server by its address, and every agent reads it straight off the server."
+    ],
+    "sections": [
+      {
+        "type": "Added",
+        "items": [
+          "Type `/` and a skill's name in a chat, like `/grill-me my plan`, and the agent follows that skill for the request. Any skill the agent has works this way, its own or a common one, including the ones it only uses when asked.",
+          "An agent stands in its own chat, full height behind the thread, breathing, blinking and looking at you, dressed and shaped the way its Appearance tab says.",
+          "OpenCode Go as a provider. Paste the key from the OpenCode console, or export `OPENCODE_API_KEY`, and every Go model is listed. Each runs over the API its maker speaks, except Gemini, which Atlantis cannot run yet.",
+          "OpenAI as a provider, billed to an API key from the OpenAI platform or `OPENAI_API_KEY`.",
+          "ChatGPT as a provider. `Sign in with ChatGPT` on its Config tab signs in through the browser, and turns are billed to your plan's included usage, within the limit set for Atlantis in ChatGPT settings. Sign out ends the session with OpenAI too.",
+          "OpenCode Go and OpenAI models show their context size and what they can do, read from models.dev, so a long conversation is not cut to a few thousand tokens.",
+          "Ollama on your own machine as a provider, with no key. Every model you have pulled is listed, and a turn runs at a 32k window, or the model's own when it is smaller, so Ollama no longer drops the start of a long conversation.",
+          "OpenRouter as a provider. `Sign in with OpenRouter` makes a key labelled Atlantis without leaving the app, or paste one or export `OPENROUTER_API_KEY`. Every model shows its context size and what it can do.",
+          "Anthropic as a provider, billed to an API key from the Claude platform or `ANTHROPIC_API_KEY`. Every Claude model shows its context size and what it can do.",
+          "`atlantis://` links bring Atlantis to the front, which is what the Back to Atlantis button on the sign-in page does.",
+          "Remove a provider with the trash in its sheet's head. The first press asks, and says which agents will be left without a model.",
+          "A custom provider can speak OpenAI Chat Completions, which covers Groq, Together, Fireworks, DeepSeek, Mistral, LM Studio, vLLM and most others. Give it the base URL its docs give, and its models are read from `/models`.",
+          "The Oracle's library follows its folder as it changes. A page added, removed, retitled or retagged in the wiki moves on the shelves while you are in the house, and Tron's Library tab updates its counts.",
+          "A wiki with a topic tree, every page carrying `topics`, is shelved by its topics on the library's ground floor, each named by its topic page, and the largest topic goes up to the gallery. Pages without a topic go by their tags as before, up in the gallery.",
+          "The library's shelves fill from the right, the end nearest the door, on both floors.",
+          "Ask the library's keeper about the page you're reading with the speech bubble beside Close. It opens their chat with the page attached, and your next message tells them which page it's about.",
+          "A working desk in the library, under the gallery by the glass, holds what the wiki has open in four stacks: open questions, pages in flight, what to research next, and what needs you (open reviews, pages sent back, and the inbox). Click a book to read it.",
+          "Every model shows how strong it is, out of 10, where 10 is the strongest model available today and every other model is rated by its share of that model's score on the independent Artificial Analysis Intelligence Index, whoever made it. The flames burn yellow to 3, green to 6, red to 8, blue at 9 and black and white at 10, beside each model on the Models page, in the model select and on the agent's model pill.",
+          "Rate a model yourself, or correct its rating, with the flames on an agent's model card. Press your rating again, or `Use`, to go back to Atlantis's.",
+          "An agent's model card says what its model can be trusted with at that rating, from everyday chores to the hardest problems, and links to the model leaderboard on the site, where every rating and the benchmarks behind it are.",
+          "Tron's About tab links to the model leaderboard, beside Privacy and Terms.",
+          "Talk to your agents. The microphone beside send, in every chat and the Garage, records until you press it again and writes what you said into the message, ready to read over before Enter. Esc throws a recording away.",
+          "Hearing runs on Whisper on your own machine by default, and nothing you say leaves it. Tron's new Voice tab downloads a Whisper model, from Tiny at 32 MB to Large v3 Turbo at 574 MB, and can send speech to OpenAI, OpenRouter or an OpenAI-compatible host like Groq instead.",
+          "Hear an agent's answer read aloud with the speaker under it, through OpenAI or OpenRouter. When you send a message you spoke, the answer is read aloud on its own, which the Voice tab can switch off.",
+          "Give each agent a voice of its own on the Voice tab of its sheet: thirteen voices to hear and pick from, and a few words on how it speaks, its pace, tone or accent. They are written into its `SOUL.md` under `## Speaking voice`, apart from `## Voice`, which is still how it writes.",
+          "Downloaded Whisper models show under Voice on the Storage tab, where they can be removed.",
+          "The Oracle's house is three times the size, with room for many more agents: 82 desks in the office, 28 seats in meeting rooms, 34 in the lounge, 22 in the kitchen and 24 in the game and music rooms.",
+          "The office is two storeys tall round an atrium, with a mezzanine up a floating stair. There are no rows of desks: each team has a section in its own colour and works round a round desk or a long shared one, with a computer at every place.",
+          "Meetings happen in four glass rooms for up to seven, one in each corner of the office, two on each floor.",
+          "A room of your own in the office's upstairs west corner, glass on two sides to the sea: dark, lit by neon, with a desk facing the view, a retro sunset print and an arcade cabinet.",
+          "The lounge has sofas round rugs, a reading nook by the window, magazine racks with the day's papers, a coffee bar, and pictures and screens on every wall.",
+          "The game room has table tennis, four arcade cabinets, two chess tables and a console with a sofa, beside the pool table.",
+          "The kitchen is a fitted kitchen, with units along two walls, a hob under a hood, a sink, an island with stools and two tables to eat at.",
+          "Tiki torches light the path down to the beach at night, and there are loungers and umbrellas on the sand, and tables to eat at.",
+          "Out in the sea, a rock with a cave at its foot and a lighthouse on top, its beams sweeping round at night.",
+          "The house stands on its own island, with a lawn round the house, a beach in front, palms along every shore and the sea in every direction.",
+          "Behind the house, an Olympic pool with lanes, starting blocks, and loungers and tables like the beach's, a basketball court with benches either side, and a full-size football pitch with stands all round it. The island is more than twice the size to hold them, and its coast is no longer straight: a cove at the front, bays and a sandy spit down the west and back, and a jagged east shore of rocks and boulders with sea stacks offshore. Palms grow all over it.",
+          "A music room off the game room, treated for sound with bass traps, absorbers and diffusers, with a grand piano, a drum kit, guitars, mics and speakers. Agents go there to play.",
+          "A chandelier hangs in the library, and every room has more lights, with picture lights over the lounge's paintings.",
+          "A tall ship is moored off the end of the dock with its sails furled. Walk out along the jetty and up the plank to board it, and go below to the gun deck, the hold and the captain's cabin.",
+          "Connect the library to a WebDAV server by its address, like `http://starkm1:8080/`, under From a server on Tron's Library tab. It is read straight off the server, never copied to disk and never written, and every agent reads it by that address. Any server that speaks WebDAV works: `rclone serve webdav`, Caddy's or nginx's WebDAV module, Apache's `mod_dav`, or a NAS.",
+          "The first look at a library on a server reads every page, which takes a few seconds for a large wiki over a slow link. After that only a page that changed is fetched again, and the shelves follow the server every 20 seconds.",
+          "An address with a name or password in it is refused, so for now the server has to serve the library without a login. A library on a server has no keeper, so the reader has no Ask button for it.",
+          "`library::Place`, where the library is kept: a folder or an address. `Settings.library` holds one, written as a single string, so a `settings.json` from before reads as the folder it named. `Place::parse` reads an `http://` or `https://` address as a server, ends its path in `/`, drops a query or fragment, and refuses a login with `AddressLogin`.",
+          "`library::remote::Remote`, a library on a WebDAV server. It lists the server at depth infinity when the server allows it, and a folder at a time, 16 at once, when it refuses, as Apache does by default. A listing is reused for 5 seconds. Each page is held in memory with the ETag its listing gave it and fetched again only when that moves. The catalogue and the page opener run over the listing and the held pages, note what they read that is not held, fetch it all together and run again.",
+          "`library::dav`, the `Dav` seam the shell implements with its client, the `PROPFIND` it sends, and the parser of the multistatus answer, which matches elements by local name and reads only a `200` propstat. `backend::Web` implements it.",
+          "`read_file`, `list_dir` and `search` read a library on a server by its address, through `Net::library`. A write to the library's address is refused as a shared folder, and `Home::resolve` refuses any other address as outside the home, so a write can no longer make an `http:` folder in a home.",
+          "Errors for a library on a server: `BadAddress`, `AddressLogin`, `LibraryUnreachable` and `NotWebDav`.",
+          "`crates/atlantis-app/tests/remote_library.rs`, ignored, reads a library off a real WebDAV server and checks it shelves exactly as the folder it serves, with request counts and timings. `LIBRARY_RTT_MS` adds a delay per request to stand in for a distant server."
+        ]
+      },
+      {
+        "type": "Changed",
+        "items": [
+          "Building Atlantis now takes cmake, for whisper.cpp.",
+          "Adding a provider opens it on its Config tab when it still needs a key or a sign-in, and its models are read once the key is saved.",
+          "Provider sheets are wider on a large window.",
+          "The agents rail lists the agent you last chatted with first. Agents you have never spoken to follow, in the order they were added.",
+          "Model lists on the Models page and in the model select read strongest first, then newest.",
+          "Agents in the Garage reply to one another the way people in a group chat do. Every post, yours or an agent's, is put to each agent that didn't write it, and those it warrants a reply from answer: when it's put to them, falls to them with something new to add, gets something in their area wrong, or says something they disagree with. Each agent listens on its own and replies whenever it's free, with no rounds holding anyone up, and a conversation runs until nobody has anything more to say. This replaces claiming a message and debating it, and there are no more notes about rounds or debates settling.",
+          "Set how many times each agent may reply to one Garage message under Tron's General tab, from 1 to 100. It is 20 unless changed.",
+          "Pick a model for Garage reply decisions under Tron's General tab. Every agent is asked about every post, so a small fast model keeps a busy Garage quick. Left unset, each agent decides with its own model.",
+          "An agent in the Garage that finds it has nothing to add passes, and nothing is posted, rather than saying the message is not theirs.",
+          "The microphone is disabled until voice input is set up: a Whisper model downloaded, or a provider picked that can transcribe and has a key or sign-in that works. Pointing at it says what is missing.",
+          "Agents answer in the Garage precisely, with the specifics that settle a question and without greetings or the question said back.",
+          "Runek 0.17.0. The Oracle's first person is much wider, about 140° across, through a gently curved lens that softens toward the edges, and the camera no longer shakes while you walk. A book on a shelf or on the working desk lights up and opens only once you are close enough to reach it. Palms grow fuller crowns, agents only turn their heads to you from nearby, and everything drawn from a seed comes out differently than before: the furniture, the palms and rocks, and any part of an agent's figure its `SOUL.md` does not describe. A gender or hair style you picked for your own figure stays as it is. The Oracle is cheaper to draw: parts that look alike share one material and are merged into a few draws, the house's 54 lights at night become a pool of ten given to the ones nearest you, shadows redraw 30 times a second rather than every frame, and the world renders at up to 1.5 times the screen's pixel density, stepping down while frames run slow.",
+          "The catalogue, the page opener and the working desk read through a `Shelf`, a folder or what a server answered, rather than the filesystem. A folder is read as before, but a symlink inside a library is no longer shelved: `open` already refused a page that resolved outside the folder, and the shelves now agree with it.",
+          "`Catalogue.root` is a string, the folder's path or the server's address.",
+          "`library`, `set_library`, `create_library` and `library_page` are async commands, and a folder is read on a blocking thread rather than the main one. `set_library` lists an address before keeping it, so a server that is not there, or not WebDAV, is refused with why."
+        ]
+      },
+      {
+        "type": "Fixed",
+        "items": [
+          "Your figure in the Oracle stands on the floor in the views from behind and overhead, rather than a hand's width above it.",
+          "A library too big for the Oracle's shelves no longer leaves books off them. Every page is on a shelf, the crowded shelves draw their books thinner, and with more subjects than shelves the smallest share the General shelves."
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "os": "macOS",
+        "arch": "Universal, Apple Silicon and Intel",
+        "format": "DMG",
+        "filename": "Atlantis_0.8.0_universal.dmg",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.0/Atlantis_0.8.0_universal.dmg",
+        "size": "23 MB"
+      }
+    ],
+    "archived": false
+  },
+  {
     "version": "0.7.0",
     "tag": "v0.7.0",
     "codename": "Ode to Joy",
