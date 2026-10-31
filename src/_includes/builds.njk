@@ -1,0 +1,79 @@
+{#- The newest release on the home page: a card per platform, each with its mark. A platform with
+    one package downloads it, and one with several opens a dialog to pick from. Without script,
+    that button goes to the release on the download page instead. -#}
+{%- from "icons.njk" import icon, brand -%}
+<div class="builds">
+  <div class="builds-head">
+    <h3 class="release-version">v{{ latest.version }}</h3>
+    {%- if latest.codename %}<span class="release-codename">{{ latest.codename }}</span>{% endif %}
+    <span class="release-chips">
+      <span class="chip" data-tone="ready">Latest</span>
+      {%- if (latest.version.split(".")[0] | int) < 1 %}<span class="chip" data-tone="working">Alpha</span>{% endif -%}
+    </span>
+    <time class="release-date" datetime="{{ latest.date }}">{{ latest.date }}</time>
+  </div>
+  {%- if latest.notes %}
+  <p class="release-notes">{{ latest.notes }}</p>
+  {%- endif %}
+
+  <ul class="build-cards">
+    {%- for build in platforms.builds %}
+    <li class="build glass" data-os="{{ build.id }}">
+      <div class="build-top">
+        <span class="build-mark">{{ brand(build.mark) }}</span>
+        {%- if build.assets.length == 1 %}
+        <a class="button button-round" href="{{ build.assets[0].url }}" data-download="{{ latest.version }}" aria-label="Download {{ build.assets[0].filename }}" title="Download {{ build.assets[0].filename }}">
+          {{ icon("download") }}
+        </a>
+        {%- else %}
+        <a class="button button-round" href="/download/#v{{ latest.version }}" data-dialog="get-{{ build.id }}" aria-haspopup="dialog" aria-label="Choose a {{ build.os }} package" title="Choose a {{ build.os }} package">
+          {{ icon("download") }}
+        </a>
+        {%- endif %}
+      </div>
+      <div class="build-text">
+        <h4 class="build-os">{{ build.os }}</h4>
+        <p class="caption">
+          {%- if build.assets.length == 1 -%}
+          {{ build.arch }} · {{ build.assets[0].size }}
+          {%- else -%}
+          {{ build.arch }} · {{ build.kinds }}
+          {%- endif -%}
+        </p>
+      </div>
+    </li>
+    {%- endfor %}
+  </ul>
+
+  {%- for build in platforms.builds %}
+  {%- if build.assets.length > 1 %}
+  <dialog class="build-dialog glass" id="get-{{ build.id }}" aria-labelledby="get-{{ build.id }}-title">
+    <div class="build-dialog-body">
+    <div class="build-dialog-head">
+      <span class="build-mark">{{ brand(build.mark) }}</span>
+      <div>
+        <h3 id="get-{{ build.id }}-title">Atlantis for {{ build.os }}</h3>
+        <p class="caption">v{{ latest.version }} · {{ build.arch }}</p>
+      </div>
+      <button class="icon-button" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+    <ul class="build-options">
+      {%- for asset in build.assets %}
+      <li>
+        <div>
+          <strong>{{ asset.format }}</strong>
+          <span class="caption">{{ asset.filename }} · {{ asset.size }}</span>
+        </div>
+        <a class="button button-quiet button-round" href="{{ asset.url }}" data-download="{{ latest.version }}" aria-label="Download {{ asset.filename }}" title="Download {{ asset.filename }}">
+          {{ icon("download") }}
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+    </div>
+  </dialog>
+  {%- endif %}
+  {%- endfor %}
+</div>

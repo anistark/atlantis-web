@@ -363,6 +363,14 @@ button {
   color: var(--primary);
 }
 
+/* A button that is only its icon, named by its label. */
+.button-round {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  flex: none;
+}
+
 .button-quiet {
   border-color: var(--edge);
   background: none;
@@ -1079,6 +1087,146 @@ main > .section:last-child {
 .asset-label strong {
   display: block;
   font-weight: 500;
+}
+
+/* the newest release on the home page, a card per platform */
+
+.builds-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--frame) var(--gate-sp);
+}
+
+.build-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--frame);
+  margin: var(--reel) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.build {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gate-sp);
+  padding: var(--reel);
+}
+
+.build-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--frame);
+}
+
+.build-mark {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+  background: var(--hover);
+  color: var(--lamp);
+}
+
+.build-mark svg {
+  width: 28px;
+  height: 28px;
+}
+
+.build-os {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.build-text .caption {
+  margin: var(--perf) 0 0;
+}
+
+.build-dialog {
+  width: min(800px, 100% - 2 * var(--gate-sp));
+  max-height: calc(100% - 2 * var(--gate-sp));
+  padding: 0;
+  background: var(--glass-strong);
+  color: var(--lamp);
+}
+
+/* The padding is inside, so a press on the dialog element itself is a press on the backdrop. */
+.build-dialog-body {
+  padding: var(--reel);
+}
+
+.build-dialog::backdrop {
+  background: color-mix(in srgb, var(--void) 70%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.build-dialog[open] {
+  animation: dialog-in var(--ease) both;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+.build-dialog-head {
+  display: flex;
+  align-items: center;
+  gap: var(--frame);
+}
+
+.build-dialog-head h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.build-dialog-head .caption {
+  margin: 2px 0 0;
+}
+
+.build-dialog-head .icon-button {
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+.build-options {
+  margin: var(--gate-sp) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.build-options li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--frame);
+  padding: var(--gate-sp) 0;
+  border-top: 1px solid var(--edge);
+}
+
+.build-options li > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.build-options strong {
+  display: block;
+  font-weight: 500;
+}
+
+.build-options .caption {
+  overflow-wrap: anywhere;
 }
 
 .release-log {
@@ -2545,6 +2693,8 @@ a.tip-maker:hover {
   }
 
   .release,
+  .build,
+  .build-dialog-body,
   .facts .glass,
   .summary {
     padding: var(--gate-sp);

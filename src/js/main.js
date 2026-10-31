@@ -152,6 +152,21 @@ if (house && !still) {
   }).observe(house);
 }
 
+// A platform with several packages opens a dialog to pick one. Its link goes to the release on the
+// download page, so the button still leads somewhere without script.
+document.addEventListener("click", (event) => {
+  const opener = event.target.closest("[data-dialog]");
+  const dialog = opener && document.getElementById(opener.dataset.dialog);
+  if (dialog) {
+    event.preventDefault();
+    dialog.showModal();
+    return;
+  }
+  // A press on the backdrop lands on the dialog itself, outside its content.
+  const open = event.target.closest("dialog[open]");
+  if (open && (event.target === open || event.target.closest("[data-close]"))) open.close();
+});
+
 document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-download]");
   if (link && typeof window.gtag === "function") {

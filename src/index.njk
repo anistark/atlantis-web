@@ -142,10 +142,8 @@ layout: base.njk
     {%- endif %}
   </header>
   {%- if latest %}
-    {%- set release = latest %}
-    {%- set full = false %}
-    {% include "release.njk" %}
-    <p class="caption" style="margin-top: var(--gate-sp)">How to set it up, older builds and every changelog are on the <a class="link" href="/download/">download page</a>.</p>
+    {% include "builds.njk" %}
+    <p class="caption" style="margin-top: var(--gate-sp)">What changed, how to set it up, and older builds are on the <a class="link" href="/download/">download page</a>.</p>
     {% include "notify.njk" %}
   {%- else %}
     <div class="glass empty">
