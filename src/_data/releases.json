@@ -1,5 +1,76 @@
 [
   {
+    "version": "0.8.1",
+    "tag": "v0.8.1",
+    "codename": "Fur Elise",
+    "date": "2026-10-31",
+    "stable": true,
+    "notes": "Cross platform",
+    "highlights": [
+      "Atlantis for Linux and Windows: a `.deb`, an `.rpm` and an AppImage for x64 Linux, and an installer for x64 Windows, beside the Mac app.",
+      "The Mac app needs macOS 11 Big Sur or later."
+    ],
+    "sections": [
+      {
+        "type": "Changed",
+        "items": [
+          "`just release beta`, `alpha`, `stable` or `patch` is the whole release. It works out the next version, asks for a codename, a line for the site and the release notes (from the changelog, generated from the commits since the last tag, or your own), then commits and tags the release and drafts it on atlantis-web. atlantis-web's new Release workflow builds macOS, Linux and Windows, attaches every package and only then publishes the release and updates the site. `just publish`, `scripts/publish.sh` and this repo's manual `Package` workflow are gone.",
+          "atlantis-web keeps the newest stable release hosted past the newest three, so a run of betas leaves stable users something to download."
+        ]
+      },
+      {
+        "type": "Fixed",
+        "items": [
+          "The Intel half of the Mac app said it ran on macOS 10.13, but whisper.cpp needs 10.15 for `std::filesystem`, so it would not have started on 10.13 or 10.14. `minimumSystemVersion` is now `11.0` in `tauri.conf.json`, the floor Apple Silicon already had, and the build no longer depends on a newer Xcode quietly allowing it.",
+          "The Linux build compiles again. `tauri-plugin-deep-link` 2.6.2 fills in `rust-ini`'s `ParseOption` field by field, and `rust-ini` 0.21.2 added fields to it, so `Cargo.lock` holds `rust-ini` at 0.21.1."
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "os": "macOS",
+        "arch": "Universal, Apple Silicon and Intel",
+        "format": "DMG",
+        "filename": "Atlantis_0.8.1_universal.dmg",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.1/Atlantis_0.8.1_universal.dmg",
+        "size": "23 MB"
+      },
+      {
+        "os": "Windows",
+        "arch": "x64",
+        "format": "Installer",
+        "filename": "Atlantis_0.8.1_x64-setup.exe",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.1/Atlantis_0.8.1_x64-setup.exe",
+        "size": "8 MB"
+      },
+      {
+        "os": "Linux",
+        "arch": "x64",
+        "format": "AppImage",
+        "filename": "Atlantis_0.8.1_amd64.AppImage",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.1/Atlantis_0.8.1_amd64.AppImage",
+        "size": "97 MB"
+      },
+      {
+        "os": "Linux",
+        "arch": "x64",
+        "format": "Debian and Ubuntu",
+        "filename": "Atlantis_0.8.1_amd64.deb",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.1/Atlantis_0.8.1_amd64.deb",
+        "size": "12 MB"
+      },
+      {
+        "os": "Linux",
+        "arch": "x64",
+        "format": "Fedora and openSUSE",
+        "filename": "Atlantis-0.8.1-1.x86_64.rpm",
+        "url": "https://github.com/anistark/atlantis-web/releases/download/v0.8.1/Atlantis-0.8.1-1.x86_64.rpm",
+        "size": "12 MB"
+      }
+    ],
+    "archived": false
+  },
+  {
     "version": "0.8.0",
     "tag": "v0.8.0",
     "codename": "Moonlight Sonata",
